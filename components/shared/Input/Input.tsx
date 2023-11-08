@@ -21,7 +21,7 @@ const Input: React.FC<InputProps> = ({ label, icon, ...props }) => {
         )}
         <input
           {...props}
-          className={`block w-full px-4 py-2 border border-[#86868b] rounded-md focus:outline-none focus:ring focus:border-[#0071e3] placeholder-gray-400 ${props.className}`}
+          className={`block px-4 py-2 border border-[#86868b] rounded-md focus:outline-none focus:ring focus:border-[#0071e3] placeholder-gray-400 ${props.className}`}
         />
       </div>
     </div>

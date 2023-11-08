@@ -9,7 +9,7 @@ interface Props {
 const Layout = ({ children }: Props) => {
   return (
     <>
-      <div className="bg-[#feffff]">
+      <div className="bg-common">
         <Header />
         <main className="">{children}</main>
         <Footer />
