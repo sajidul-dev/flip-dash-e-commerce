@@ -1,6 +1,16 @@
+import { setCart } from "@/redux/slice/cartSlice/cartSlice";
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { AiOutlineShoppingCart } from "react-icons/ai";
+import { MdOutlineFavoriteBorder } from "react-icons/md";
+import { useDispatch } from "react-redux";
+
+export interface CartItem {
+  _id: number;
+  title: string;
+  comment: string;
+  image: string;
+}
 
 const TopDeals = () => {
   const [topDealsItems, setTopDealsItems] = useState([
@@ -65,6 +75,29 @@ const TopDeals = () => {
       image: "/images/top-deals/10.jpg",
     },
   ]);
+  const dispatch = useDispatch();
+  const [cart, setCart] = useState<any>([]);
+  const [favourite, setFavourite] = useState<any>([]);
+
+  useEffect(() => {
+    setCart(JSON.parse(localStorage.getItem("cart") || "[]"));
+    setFavourite(JSON.parse(localStorage.getItem("favourite") || "[]"));
+  }, []);
+
+  useEffect(() => {
+    setTimeout(() => {
+      localStorage.setItem("cart", JSON.stringify(cart));
+      localStorage.setItem("favourite", JSON.stringify(favourite));
+    }, 500);
+  }, [cart, favourite]);
+
+  const addToCart = (item: CartItem) => {
+    setCart((prev: any) => [...prev, item]);
+  };
+  const addToFavourite = (item: CartItem) => {
+    setFavourite((prev: any) => [...prev, item]);
+  };
+
   return (
     <div className="bg-white">
       <p className="p-4 text-xl font-semibold">Top Deals</p>
@@ -73,7 +106,7 @@ const TopDeals = () => {
           return (
             <div
               key={item._id}
-              className="p-4 border-[0.5px] border-[#e0e0e0] w-[210px] flex flex-col justify-between">
+              className="relative p-4 border-[0.5px] border-[#e0e0e0] w-[210px] flex flex-col justify-between">
               <Image
                 width={200}
                 height={200}
@@ -91,10 +124,16 @@ const TopDeals = () => {
                     {item.comment}
                   </p>
                 </div>
-                <button className="text-2xl">
+                <button onClick={() => addToCart(item)} className="text-2xl">
                   <AiOutlineShoppingCart />
                 </button>
               </div>
+              <button
+                type="button"
+                onClick={() => addToFavourite(item)}
+                className="absolute top-0 right-2 text-2xl">
+                <MdOutlineFavoriteBorder />
+              </button>
             </div>
           );
         })}
