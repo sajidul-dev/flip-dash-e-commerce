@@ -52,7 +52,7 @@ const Banner = () => {
                 width={1920}
                 height={650}
                 layout="responsive"
-                objectFit="cover"
+                // objectFit="cover"
                 quality={100}
                 className="rounded-md"
                 priority={true}

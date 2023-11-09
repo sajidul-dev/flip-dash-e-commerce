@@ -1,9 +1,17 @@
-import { setCart } from "@/redux/slice/cartSlice/cartSlice";
+import {
+  setCart as setCartAction,
+  setDefaultCart,
+} from "@/redux/slice/cartSlice/cartSlice";
+import {
+  setFavourite as setFavouriteAction,
+  setDefaultFavourite,
+} from "@/redux/slice/favouriteSlice/favouriteSlice";
+import { RootState } from "@/redux/store/store";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { AiOutlineShoppingCart } from "react-icons/ai";
-import { MdOutlineFavoriteBorder } from "react-icons/md";
-import { useDispatch } from "react-redux";
+import { MdOutlineFavorite, MdOutlineFavoriteBorder } from "react-icons/md";
+import { useDispatch, useSelector } from "react-redux";
 
 export interface CartItem {
   _id: number;
@@ -76,8 +84,11 @@ const TopDeals = () => {
     },
   ]);
   const dispatch = useDispatch();
-  const [cart, setCart] = useState<any>([]);
-  const [favourite, setFavourite] = useState<any>([]);
+  const [cart, setCart] = useState<CartItem[]>([]);
+  const [favourite, setFavourite] = useState<CartItem[]>([]);
+  const favouriteItem = useSelector(
+    (state: RootState) => state.favouriteReducer.items
+  );
 
   useEffect(() => {
     setCart(JSON.parse(localStorage.getItem("cart") || "[]"));
@@ -86,18 +97,33 @@ const TopDeals = () => {
 
   useEffect(() => {
     setTimeout(() => {
+      dispatch(setDefaultCart([]));
+      dispatch(setDefaultFavourite([]));
       localStorage.setItem("cart", JSON.stringify(cart));
       localStorage.setItem("favourite", JSON.stringify(favourite));
+      cart.map((item) => {
+        dispatch(setCartAction(item));
+      });
+      favourite.map((item) => {
+        dispatch(setFavouriteAction(item));
+      });
     }, 500);
-  }, [cart, favourite]);
+  }, [cart, favourite, dispatch]);
 
   const addToCart = (item: CartItem) => {
     setCart((prev: any) => [...prev, item]);
   };
   const addToFavourite = (item: CartItem) => {
-    setFavourite((prev: any) => [...prev, item]);
+    const foundItem = favouriteItem.find((element) => element._id === item._id);
+    if (foundItem) {
+      const filteredItem = favourite.filter(
+        (element) => element._id !== item._id
+      );
+      setFavourite(filteredItem);
+    } else {
+      setFavourite((prev: any) => [...prev, item]);
+    }
   };
-
   return (
     <div className="bg-white">
       <p className="p-4 text-xl font-semibold">Top Deals</p>
@@ -109,6 +135,7 @@ const TopDeals = () => {
               className="relative p-4 border-[0.5px] border-[#e0e0e0] w-[210px] flex flex-col justify-between">
               <Image
                 width={200}
+                unoptimized
                 height={200}
                 quality={100}
                 className="rounded-md"
@@ -132,7 +159,12 @@ const TopDeals = () => {
                 type="button"
                 onClick={() => addToFavourite(item)}
                 className="absolute top-0 right-2 text-2xl">
-                <MdOutlineFavoriteBorder />
+                {favouriteItem.find((element) => element._id === item._id) ? (
+                  <MdOutlineFavorite />
+                ) : (
+                  <MdOutlineFavoriteBorder />
+                )}
+                {/* <MdOutlineFavoriteBorder /> */}
               </button>
             </div>
           );

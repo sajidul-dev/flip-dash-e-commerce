@@ -9,17 +9,23 @@ import { BiUser } from "react-icons/bi";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import { MdOutlineFavorite, MdOutlineFavoriteBorder } from "react-icons/md";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store/store";
 
 const Header = () => {
   const [cartItems, setCartItems] = useState<any>([]);
   const [favItems, setFavItems] = useState<any>([]);
-  useEffect(() => {
-    if (!window) return;
-    const cart = localStorage.getItem("cart");
-    const fav = localStorage.getItem("favourite");
-    setCartItems(JSON.parse(cart as string));
-    setFavItems(JSON.parse(fav as string));
-  }, []);
+  const cartItem = useSelector((state: RootState) => state.cartReducer.items);
+  const favouriteItem = useSelector(
+    (state: RootState) => state.favouriteReducer.items
+  );
+  // useEffect(() => {
+  //   if (!window) return;
+  //   const cart = localStorage.getItem("cart");
+  //   const fav = localStorage.getItem("favourite");
+  //   setCartItems(JSON.parse(cart as string));
+  //   setFavItems(JSON.parse(fav as string));
+  // }, []);
   return (
     <div className="bg-white">
       <nav className="container mx-auto flex justify-between items-center py-2">
@@ -60,11 +66,11 @@ const Header = () => {
             className="py-[14px] flex items-center space-x-2 text-2xl cursor-pointer"
             route="/cart">
             <AiOutlineShoppingCart />
-            {cartItems?.length}
+            {cartItem?.length}
           </NavLink>
           <div className="py-[14px] flex items-center space-x-2 text-2xl cursor-pointer">
             <MdOutlineFavorite />
-            {favItems?.length}
+            {favouriteItem?.length}
           </div>
 
           {/* <NavLink className="py-[14px]" route="/auth/register">
