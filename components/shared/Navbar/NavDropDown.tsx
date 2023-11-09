@@ -15,8 +15,8 @@ const NavDropDown = ({ nav, className }: any) => {
   // if (nav == "store") {
   return (
     <div className={className}>
-      <div className="w-[52%] mx-auto">
-        {nav == "store" ? (
+      <div className="w-full text-[#000]">
+        {/* {nav == "store" ? (
           <Store />
         ) : nav == "mac" ? (
           <Mac />
@@ -40,7 +40,8 @@ const NavDropDown = ({ nav, className }: any) => {
           <Search />
         ) : (
           ""
-        )}
+        )} */}
+        {nav ? "Hello" : "Gelo"}
       </div>
     </div>
   );

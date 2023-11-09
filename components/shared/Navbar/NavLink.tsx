@@ -23,7 +23,9 @@ const NavLink = ({
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
       color={color}
-      className={`${className} ${currentRoute === route ? "active" : ""}`}>
+      className={`${className} ${
+        currentRoute === route ? "text-[#30C47E]" : ""
+      }`}>
       {children}
     </Link>
   );

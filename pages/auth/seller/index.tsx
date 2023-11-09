@@ -9,7 +9,7 @@ type Inputs = {
   password: string;
 };
 
-const Signup = () => {
+const Seller = () => {
   const {
     register,
     handleSubmit,
@@ -29,10 +29,9 @@ const Signup = () => {
         .catch((err) => console.log(err));
     }
   };
-
   return (
     <div className="container mx-auto flex flex-col justify-center mt-4">
-      <p>Sign up for better experience</p>
+      <p>Become a Seller for no reason</p>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Input
           register={register("name")}
@@ -52,10 +51,14 @@ const Signup = () => {
           register={register("password")}
           className="my-4"
         />
-        <Input type="submit" value="Sign up" className="cursor-pointer" />
+        <Input
+          type="submit"
+          value="Become a seller"
+          className="cursor-pointer"
+        />
       </form>
     </div>
   );
 };
 
-export default Signup;
+export default Seller;

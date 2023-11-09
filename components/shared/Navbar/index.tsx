@@ -11,48 +11,67 @@ import { MdOutlineFavorite, MdOutlineFavoriteBorder } from "react-icons/md";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store/store";
+import Cookies from "universal-cookie";
+import Button from "../Button/Button";
 
 const Header = () => {
+  const [openDropDown, setOpenDropDown] = useState(false);
+  const cookies = new Cookies();
   const cartItem = useSelector((state: RootState) => state.cartReducer.items);
   const favouriteItem = useSelector(
     (state: RootState) => state.favouriteReducer.items
   );
   return (
-    <div className="bg-white">
-      <nav className="container mx-auto flex justify-between items-center py-2">
+    <div className="bg-white sticky z-[1100] top-0">
+      <div className="container mx-auto flex justify-between items-center py-2">
         <div className="flex items-center gap-8">
           <NavLink route="/">
-            {/* <span>Flip Dash</span> */}
             <Icon name="nav_logo" />
           </NavLink>
           <Input
             placeholder="Search for Products, Brands and More"
-            className="bg-common w-[725px]"
+            className="bg-common md:w-[725px]"
           />
         </div>
         <div className="flex gap-8">
           <NavLink
-            className="py-[14px] flex items-center space-x-2"
-            route="/store">
+            className="px-[10px] flex items-center space-x-2 hover:bg-common hover:rounded-lg"
+            route="/auth/seller">
             <BsInboxes />
             <p>Become a Seller</p>
           </NavLink>
-          <NavLink
-            className="py-[14px] flex items-center space-x-2"
-            route="/auth/login">
-            <BiUser />
-            <p>Sign in</p>
-            {/* <IoIosArrowDown />
+          {!cookies.get("user")?._id ? (
+            <>
+              <NavLink
+                className="px-[10px] flex items-center space-x-2 hover:bg-common hover:rounded-lg"
+                route="/auth/login">
+                <BiUser />
+                <p>Sign in</p>
+                {/* <IoIosArrowDown />
             <IoIosArrowUp /> */}
-          </NavLink>
-          <NavLink
-            className="py-[14px] flex items-center space-x-2"
-            route="/auth/register">
-            <BiUser />
-            <p>Sign up</p>
-            {/* <IoIosArrowDown />
+              </NavLink>
+              <NavLink
+                className="px-[10px] flex items-center space-x-2 hover:bg-common hover:rounded-lg"
+                route="/auth/register">
+                <BiUser />
+                <p>Sign up</p>
+                {/* <IoIosArrowDown />
             <IoIosArrowUp /> */}
-          </NavLink>
+              </NavLink>
+            </>
+          ) : (
+            <div
+              onClick={() => setOpenDropDown(!openDropDown)}
+              className="py-[14px] cursor-pointer flex items-center">
+              {cookies.get("user").name}
+            </div>
+          )}
+          <NavDropDown
+            className={`absolute top-10 bg-white shadow-2xl mt-[40px] z-50 text-white w-[400px] transition-all ease-in-out duration-500 ${
+              openDropDown ? "h-[30vh] opacity-100" : "h-0 opacity-0"
+            }`}
+            nav={openDropDown}
+          />
           <NavLink
             className="py-[14px] relative flex items-center text-2xl cursor-pointer"
             route="/cart">
@@ -65,12 +84,8 @@ const Header = () => {
             <MdOutlineFavorite />
             {favouriteItem?.length}
           </div>
-
-          {/* <NavLink className="py-[14px]" route="/auth/register">
-          <p>Sign up</p>
-        </NavLink> */}
         </div>
-      </nav>
+      </div>
     </div>
   );
 };

@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import Header from "../shared/Navbar";
+// import Header from "../shared/Navbar";
 import Footer from "../shared/Footer/Footer";
 import { useDispatch } from "react-redux";
 import {
@@ -10,6 +10,9 @@ import {
   setFavourite as setFavouriteAction,
   setDefaultFavourite,
 } from "@/redux/slice/favouriteSlice/favouriteSlice";
+import dynamic from "next/dynamic";
+
+const Header = dynamic(() => import("../shared/Navbar"), { ssr: false });
 
 interface Props {
   children: React.ReactNode;
@@ -35,9 +38,9 @@ const Layout = ({ children }: Props) => {
   }, [dispatch]);
   return (
     <>
-      <div className="bg-common">
+      <div className="bg-common flex flex-col min-h-screen">
         <Header />
-        <main className="">{children}</main>
+        <main className="flex-grow">{children}</main>
         <Footer />
       </div>
     </>
