@@ -29,7 +29,6 @@ const Login = () => {
         .catch((err) => console.log(err));
     }
   };
-  console.log(cookies.get("user")._id);
   return (
     <div className="container mx-auto flex flex-col justify-center mt-4">
       <p>Sign in for better experience</p>
