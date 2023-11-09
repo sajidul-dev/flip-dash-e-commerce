@@ -25,8 +25,6 @@ const Layout = ({ children }: Props) => {
       const cart = JSON.parse(cartItem!);
       const favItem = localStorage.getItem("favourite");
       const favourite = JSON.parse(favItem!);
-      // localStorage.setItem("cart", JSON.stringify(cart));
-      // localStorage.setItem("favourite", JSON.stringify(favourite));
       cart.map((item: any) => {
         dispatch(setCartAction(item));
       });

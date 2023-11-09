@@ -38,7 +38,7 @@ const Banner = () => {
   ]);
 
   return (
-    <div className=" my-2">
+    <div className="my-2">
       <Carousel
         draggable
         showDots
@@ -51,7 +51,8 @@ const Banner = () => {
               <Image
                 width={1920}
                 height={650}
-                layout="responsive"
+                // layout="responsive"
+                unoptimized
                 // objectFit="cover"
                 quality={100}
                 className="rounded-md"

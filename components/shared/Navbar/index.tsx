@@ -13,19 +13,10 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store/store";
 
 const Header = () => {
-  const [cartItems, setCartItems] = useState<any>([]);
-  const [favItems, setFavItems] = useState<any>([]);
   const cartItem = useSelector((state: RootState) => state.cartReducer.items);
   const favouriteItem = useSelector(
     (state: RootState) => state.favouriteReducer.items
   );
-  // useEffect(() => {
-  //   if (!window) return;
-  //   const cart = localStorage.getItem("cart");
-  //   const fav = localStorage.getItem("favourite");
-  //   setCartItems(JSON.parse(cart as string));
-  //   setFavItems(JSON.parse(fav as string));
-  // }, []);
   return (
     <div className="bg-white">
       <nav className="container mx-auto flex justify-between items-center py-2">
@@ -63,10 +54,12 @@ const Header = () => {
             <IoIosArrowUp /> */}
           </NavLink>
           <NavLink
-            className="py-[14px] flex items-center space-x-2 text-2xl cursor-pointer"
+            className="py-[14px] relative flex items-center text-2xl cursor-pointer"
             route="/cart">
             <AiOutlineShoppingCart />
-            {cartItem?.length}
+            <div className="absolute top-[0px] right-[-15px] text-base bg-[#000] text-white rounded-full w-full flex justify-center items-center">
+              <span>{cartItem?.length}</span>
+            </div>
           </NavLink>
           <div className="py-[14px] flex items-center space-x-2 text-2xl cursor-pointer">
             <MdOutlineFavorite />

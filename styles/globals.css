@@ -7,3 +7,25 @@
   padding: 0;
   box-sizing: border-box;
 }
+
+.underline-appear {
+  text-decoration: none;
+  position: relative;
+}
+
+.underline-appear::before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background-color: #06c; /* Change to your preferred underline color */
+  transform: scaleX(0);
+  transform-origin: bottom left;
+  transition: transform 0.3s ease-in-out;
+}
+
+.underline-appear:hover::before {
+  transform: scaleX(1);
+}

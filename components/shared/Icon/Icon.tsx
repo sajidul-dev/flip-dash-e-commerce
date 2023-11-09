@@ -49,6 +49,7 @@ const Icon: FC<IconProps> = ({ name, className }) => {
           <Image
             width={120}
             height={25}
+            unoptimized
             src="/images/logo/logo.png"
             alt="logo"
             className="rounded"

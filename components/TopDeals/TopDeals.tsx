@@ -127,14 +127,14 @@ const TopDeals = () => {
   return (
     <div className="bg-white">
       <p className="p-4 text-xl font-semibold">Top Deals</p>
-      <div className="flex flex-wrap gap-4 p-4">
+      <div className="flex flex-wrap gap-6 p-4">
         {topDealsItems.map((item) => {
           return (
             <div
               key={item._id}
-              className="relative p-4 border-[0.5px] border-[#e0e0e0] w-[210px] flex flex-col justify-between">
+              className="relative p-4 border-[0.5px] border-[#e0e0e0] w-[250px] flex flex-col justify-between hover:shadow-[20px_20px_20px_20px_#00000014] transition-all duration-300">
               <Image
-                width={200}
+                width={220}
                 unoptimized
                 height={200}
                 quality={100}

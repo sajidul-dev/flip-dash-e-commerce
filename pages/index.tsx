@@ -7,7 +7,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
   return (
-    <main className="container mx-auto bg-common">
+    <main className="container mx-auto">
       <Banner />
       <TopDeals />
     </main>
