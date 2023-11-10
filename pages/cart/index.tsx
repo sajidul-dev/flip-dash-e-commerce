@@ -7,22 +7,29 @@ import {
   setDefaultCart,
 } from "@/redux/slice/cartSlice/cartSlice";
 import Image from "next/image";
-
-export interface CartItem {
-  _id: number;
-  title: string;
-  comment: string;
-  image: string;
-}
+import { RiDeleteBin6Line } from "react-icons/ri";
+import { CartItem } from "@/types/productType";
 
 const Cart = () => {
   const dispatch = useDispatch();
   const [cart, setCart] = useState<CartItem[]>([]);
+  const [price, setPrice] = useState(0);
   const cartItem = useSelector((state: RootState) => state.cartReducer.items);
 
   useEffect(() => {
     setCart(JSON.parse(localStorage.getItem("cart") || "[]"));
   }, []);
+  // useEffect(() => {
+  //   setPrice(0);
+  //   cartItem.map((item) => {
+  //     const quantity = cartItem.filter(
+  //       (element) => element._id === item?._id
+  //     ).length;
+  //     const itemPrice = quantity * item?.price;
+  //     console.log(itemPrice);
+  //     setPrice((prev) => prev + itemPrice);
+  //   });
+  // }, [cartItem]);
   const uniqueItems = Array.from(new Set(cart.map((item) => item._id)));
   const handleDelete = (id: number) => {
     const filteredItem = cart.filter((element) => element._id !== id);
@@ -64,65 +71,100 @@ const Cart = () => {
     }
   };
 
-  return (
-    <div className="container mx-auto">
-      <p>Your cart item</p>
-      <div className="grid grid-cols-2 gap-4">
-        <div className="col-span-1">
-          {cartItem &&
-            uniqueItems.map((itemId) => {
-              const item: CartItem | undefined = cart.find(
-                (element) => element._id === itemId
-              );
-              return (
-                <div
-                  key={item?._id}
-                  className="mb-3 p-3 relative flex gap-4 border border-[#86868b]">
-                  {item?.image && (
-                    <Image
-                      width={120}
-                      unoptimized
-                      height={80}
-                      quality={100}
-                      className="rounded-md h-[80px]"
-                      priority={true}
-                      loader={() => item.image}
-                      src={item.image}
-                      alt=""
-                    />
-                  )}
-                  <div>
-                    <span className="mr-3">{item?.title}</span>
+  const handleClearAll = () => {
+    localStorage.removeItem("cart");
+    setCart([]);
+    dispatch(setDefaultCart([]));
+  };
 
-                    <div className="flex gap-4">
-                      <Button onClick={() => item && handleDecreaseItem(item)}>
-                        -
-                      </Button>
-                      <p>
-                        {cartItem &&
-                          cartItem.filter(
-                            (element) => element._id === item?._id
-                          ).length}
-                      </p>
-                      <Button
-                        onClick={() => item && handleIncreaseItem(item)}
-                        className="cursor-pointer">
-                        +
-                      </Button>
-                    </div>
-                    <div></div>
-                  </div>
-                  <Button
-                    onClick={() => handleDelete(itemId)}
-                    className="absolute right-0 top-0 px-3 py-2 bg-[#c51919] text-white">
-                    X
-                  </Button>
-                </div>
-              );
-            })}
-        </div>
-        <div className="col-span-1">Checkout form</div>
-      </div>
+  return (
+    <div className="container mx-auto grid grid-cols-2 gap-10 mt-10">
+      {cartItem.length > 0 ? (
+        <>
+          <div className="col-span-1">
+            <div className=" flex justify-between items-center pb-4">
+              <p>Your cart item</p>
+              <Button
+                onClick={handleClearAll}
+                className="text-danger flex gap-3 items-center">
+                <RiDeleteBin6Line /> Clear All
+              </Button>
+            </div>
+            <div className="">
+              <div className="">
+                {cartItem &&
+                  uniqueItems.map((itemId) => {
+                    const item: CartItem | undefined = cart.find(
+                      (element) => element._id === itemId
+                    );
+                    return (
+                      <div
+                        key={item?._id}
+                        className="mb-3 p-3 relative flex gap-4 border border-[#86868b]">
+                        {item?.image && (
+                          <Image
+                            width={120}
+                            unoptimized
+                            height={80}
+                            quality={100}
+                            className="rounded-md h-[80px]"
+                            priority={true}
+                            loader={() => item.image}
+                            src={item.image}
+                            alt=""
+                          />
+                        )}
+                        <div>
+                          <span className="mr-3">{item?.title}</span>
+
+                          <div className="flex gap-4">
+                            <Button
+                              onClick={() => item && handleDecreaseItem(item)}>
+                              -
+                            </Button>
+                            <p>
+                              {cartItem &&
+                                cartItem.filter(
+                                  (element) => element._id === item?._id
+                                ).length}
+                            </p>
+                            <Button
+                              onClick={() => item && handleIncreaseItem(item)}
+                              className="cursor-pointer">
+                              +
+                            </Button>
+                          </div>
+                          <div>
+                            {item &&
+                              item?.price *
+                                (cartItem &&
+                                  cartItem.filter(
+                                    (element) => element._id === item?._id
+                                  ).length)}
+                            $
+                          </div>
+                        </div>
+                        <Button
+                          onClick={() => handleDelete(itemId)}
+                          className="absolute right-0 top-0 px-3 py-2 bg-[#c51919] text-white">
+                          X
+                        </Button>
+                      </div>
+                    );
+                  })}
+              </div>
+            </div>
+          </div>
+          <div className="col-span-1">
+            Checkout form
+            <p>{price}</p>
+          </div>
+        </>
+      ) : (
+        <p className="text-secondary text-2xl text-center col-span-2">
+          Add Something to Cart
+        </p>
+      )}
     </div>
   );
 };

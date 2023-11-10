@@ -3,6 +3,7 @@ import type { AppProps } from "next/app";
 import Layout from "@/components/layout/Layout";
 import { Provider } from "react-redux";
 import { store } from "@/redux/store/store";
+import { Toaster } from "react-hot-toast";
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
@@ -10,6 +11,7 @@ export default function App({ Component, pageProps }: AppProps) {
       <Layout>
         {" "}
         <Component {...pageProps} />
+        <Toaster />
       </Layout>
     </Provider>
   );

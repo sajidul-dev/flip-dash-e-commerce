@@ -17,6 +17,9 @@ const config: Config = {
     colors: {
       common: "#F1F2F4",
       white: "#FFFF",
+      black: "#000",
+      danger: "#EF4444",
+      secondary: "#30c47e",
     },
   },
   plugins: [],

@@ -9,6 +9,7 @@ import {
 import { RootState } from "@/redux/store/store";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import { MdOutlineFavorite, MdOutlineFavoriteBorder } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
@@ -99,6 +100,7 @@ const TopDeals = () => {
   const favouriteItem = useSelector(
     (state: RootState) => state.favouriteReducer.items
   );
+  const user = useSelector((state: RootState) => state.userReducer.user);
 
   useEffect(() => {
     setCart(JSON.parse(localStorage.getItem("cart") || "[]"));
@@ -121,9 +123,11 @@ const TopDeals = () => {
   }, [cart, favourite, dispatch]);
 
   const addToCart = (item: CartItem) => {
+    if (!user) return toast.error("Please login to continue", { id: "1" });
     setCart((prev: any) => [...prev, item]);
   };
   const addToFavourite = (item: CartItem) => {
+    if (!user) return toast.error("Please login to continue", { id: "1" });
     const foundItem = favouriteItem.find((element) => element._id === item._id);
     if (foundItem) {
       const filteredItem = favourite.filter(
