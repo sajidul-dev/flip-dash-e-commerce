@@ -1,47 +1,35 @@
 import React from "react";
-import Store from "./NavDropdownComponent/Store/Store";
-import Mac from "./NavDropdownComponent/Mac/Mac";
-import Ipad from "./NavDropdownComponent/IPad/Ipad";
-import Iphone from "./NavDropdownComponent/IPhone/Iphone";
-import Watch from "./NavDropdownComponent/Watch/Watch";
-import Airpods from "./NavDropdownComponent/Airpods/Airpods";
-import TvHome from "./NavDropdownComponent/TvHome/TvHome";
-import Entertainment from "./NavDropdownComponent/Entertainment/Entertainment";
-import Accesssories from "./NavDropdownComponent/Accesssories/Accesssories";
-import Support from "./NavDropdownComponent/Support/Support";
-import Search from "./NavDropdownComponent/Search/Search";
+import { AiOutlineHeart } from "react-icons/ai";
+import { BiLogOut } from "react-icons/bi";
+import { SlEmotsmile } from "react-icons/sl";
+import Button from "../Button/Button";
+import { useDispatch } from "react-redux";
+import { setUser } from "@/redux/slice/userSlice/userSlice";
+import { RemoveCookies } from "../Cookies/Cookies";
 
-const NavDropDown = ({ nav, className }: any) => {
-  // if (nav == "store") {
+const NavDropDown = ({
+  openDropDown,
+  setOpenDropDown,
+  handleLogout,
+  className,
+}: any) => {
   return (
     <div className={className}>
-      <div className="w-full text-[#000]">
-        {/* {nav == "store" ? (
-          <Store />
-        ) : nav == "mac" ? (
-          <Mac />
-        ) : nav == "ipad" ? (
-          <Ipad />
-        ) : nav == "iphone" ? (
-          <Iphone />
-        ) : nav == "watch" ? (
-          <Watch />
-        ) : nav == "airpods" ? (
-          <Airpods />
-        ) : nav == "tvhome" ? (
-          <TvHome />
-        ) : nav == "entertainment" ? (
-          <Entertainment />
-        ) : nav == "accessories" ? (
-          <Accesssories />
-        ) : nav == "support" ? (
-          <Support />
-        ) : nav == "search" ? (
-          <Search />
-        ) : (
-          ""
-        )} */}
-        {nav ? "Hello" : "Gelo"}
+      <div className="w-full p-5 text-[#6e686e] flex flex-col space-y-3">
+        <Button className="flex items-center gap-4 hover:text-[#30C47E]">
+          <SlEmotsmile />
+          My Account
+        </Button>
+        <Button className="flex items-center gap-4 hover:text-[#30C47E]">
+          <AiOutlineHeart />
+          My Wishlist
+        </Button>
+        <Button
+          onClick={handleLogout}
+          className="flex items-center gap-4 hover:text-[#30C47E]">
+          <BiLogOut />
+          Log Out
+        </Button>
       </div>
     </div>
   );

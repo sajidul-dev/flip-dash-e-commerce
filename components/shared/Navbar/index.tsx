@@ -9,18 +9,27 @@ import { BiUser } from "react-icons/bi";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import { MdOutlineFavorite, MdOutlineFavoriteBorder } from "react-icons/md";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store/store";
 import Cookies from "universal-cookie";
 import Button from "../Button/Button";
+import { RemoveCookies } from "../Cookies/Cookies";
+import { setUser } from "@/redux/slice/userSlice/userSlice";
 
 const Header = () => {
+  const dispatch = useDispatch();
   const [openDropDown, setOpenDropDown] = useState(false);
-  const cookies = new Cookies();
   const cartItem = useSelector((state: RootState) => state.cartReducer.items);
+  const user = useSelector((state: RootState) => state.userReducer.user);
   const favouriteItem = useSelector(
     (state: RootState) => state.favouriteReducer.items
   );
+  const handleLogout = () => {
+    RemoveCookies("user");
+    dispatch(setUser(null));
+    setOpenDropDown(false);
+  };
+
   return (
     <div className="bg-white sticky z-[1100] top-0">
       <div className="container mx-auto flex justify-between items-center py-2">
@@ -40,7 +49,7 @@ const Header = () => {
             <BsInboxes />
             <p>Become a Seller</p>
           </NavLink>
-          {!cookies.get("user")?._id ? (
+          {!user ? (
             <>
               <NavLink
                 className="px-[10px] flex items-center space-x-2 hover:bg-common hover:rounded-lg"
@@ -61,16 +70,21 @@ const Header = () => {
             </>
           ) : (
             <div
+              // onMouseEnter={() => setOpenDropDown(true)}
+              // onMouseLeave={() => setOpenDropDown(false)}
               onClick={() => setOpenDropDown(!openDropDown)}
               className="py-[14px] cursor-pointer flex items-center">
-              {cookies.get("user").name}
+              {user.name}
             </div>
           )}
           <NavDropDown
-            className={`absolute top-10 bg-white shadow-2xl mt-[40px] z-50 text-white w-[400px] transition-all ease-in-out duration-500 ${
+            // onMouseEnter={(e) => e.stopPropagation()}
+            className={`absolute top-10 bg-white shadow-2xl mt-[30px] z-50 text-white w-[400px] transition-all ease-in-out duration-500 ${
               openDropDown ? "h-[30vh] opacity-100" : "h-0 opacity-0"
             }`}
-            nav={openDropDown}
+            openDropDown
+            setOpenDropDown
+            handleLogout={handleLogout}
           />
           <NavLink
             className="py-[14px] relative flex items-center text-2xl cursor-pointer"

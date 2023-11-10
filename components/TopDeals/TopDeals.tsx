@@ -27,60 +27,70 @@ const TopDeals = () => {
       title: "title 1",
       comment: "Flat 70% off",
       image: "/images/top-deals/1.jpg",
+      price: 3,
     },
     {
       _id: 2,
       title: "title 2",
       comment: "Flat 70% off",
       image: "/images/top-deals/2.jpg",
+      price: 6,
     },
     {
       _id: 3,
       title: "title 3",
       comment: "Flat 70% off",
       image: "/images/top-deals/3.jpg",
+      price: 5,
     },
     {
       _id: 4,
       title: "title 4",
       comment: "Flat 70% off",
       image: "/images/top-deals/4.jpg",
+      price: 7,
     },
     {
       _id: 5,
       title: "title 5",
       comment: "Flat 70% off",
       image: "/images/top-deals/5.jpg",
+      price: 10,
     },
     {
       _id: 6,
       title: "title 6",
       comment: "Flat 70% off",
       image: "/images/top-deals/6.jpg",
+      price: 68,
     },
     {
       _id: 7,
       title: "title 7",
       comment: "Flat 70% off",
       image: "/images/top-deals/7.jpg",
+      price: 15,
     },
     {
       _id: 8,
       title: "title 8",
       comment: "Flat 70% off",
       image: "/images/top-deals/8.jpg",
+      price: 10,
     },
     {
       _id: 9,
       title: "title 9",
       comment: "Flat 70% off",
       image: "/images/top-deals/9.jpg",
+      price: 20,
     },
     {
       _id: 10,
       title: "title 10",
       comment: "Flat 70% off",
       image: "/images/top-deals/10.jpg",
+      price: 15,
     },
   ]);
   const dispatch = useDispatch();
@@ -154,6 +164,7 @@ const TopDeals = () => {
                 <button onClick={() => addToCart(item)} className="text-2xl">
                   <AiOutlineShoppingCart />
                 </button>
+                <p>{item.price}$</p>
               </div>
               <button
                 type="button"
@@ -164,7 +175,6 @@ const TopDeals = () => {
                 ) : (
                   <MdOutlineFavoriteBorder />
                 )}
-                {/* <MdOutlineFavoriteBorder /> */}
               </button>
             </div>
           );

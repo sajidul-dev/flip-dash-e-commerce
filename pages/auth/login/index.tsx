@@ -1,8 +1,11 @@
+import { SetCookies } from "@/components/shared/Cookies/Cookies";
 import Input from "@/components/shared/Input/Input";
+import { setUser } from "@/redux/slice/userSlice/userSlice";
 import axios from "axios";
+import { useRouter } from "next/router";
 import React from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import Cookies from "universal-cookie";
+import { useDispatch } from "react-redux";
 
 type Inputs = {
   email: string;
@@ -10,22 +13,28 @@ type Inputs = {
 };
 
 const Login = () => {
+  const router = useRouter();
+  const dispatch = useDispatch();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<Inputs>();
-  const cookies = new Cookies();
 
   const onSubmit: SubmitHandler<Inputs> = (data) => {
-    cookies.set("myCat", "Pacman");
     if (data) {
       axios
         .post("/api/auth/login", {
           email: data.email,
           password: data.password,
         })
-        .then((res) => cookies.set("user", JSON.stringify(res.data.user)))
+        .then((res) => {
+          if (res.data.user) {
+            SetCookies("user", res.data.user);
+            dispatch(setUser(res.data.user));
+            router.push("/");
+          }
+        })
         .catch((err) => console.log(err));
     }
   };

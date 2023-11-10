@@ -11,6 +11,8 @@ import {
   setDefaultFavourite,
 } from "@/redux/slice/favouriteSlice/favouriteSlice";
 import dynamic from "next/dynamic";
+import { setUser } from "@/redux/slice/userSlice/userSlice";
+import { GetCookies } from "../shared/Cookies/Cookies";
 
 const Header = dynamic(() => import("../shared/Navbar"), { ssr: false });
 
@@ -21,6 +23,7 @@ interface Props {
 const Layout = ({ children }: Props) => {
   const dispatch = useDispatch();
   useEffect(() => {
+    const user = GetCookies("user");
     setTimeout(() => {
       dispatch(setDefaultCart([]));
       dispatch(setDefaultFavourite([]));
@@ -35,6 +38,7 @@ const Layout = ({ children }: Props) => {
         dispatch(setFavouriteAction(item));
       });
     }, 500);
+    dispatch(setUser(user));
   }, [dispatch]);
   return (
     <>
