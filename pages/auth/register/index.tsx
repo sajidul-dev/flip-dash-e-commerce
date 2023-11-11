@@ -1,8 +1,13 @@
+import { SetCookies } from "@/components/shared/Cookies/Cookies";
 import Input from "@/components/shared/Input/Input";
+import { setUser } from "@/redux/slice/userSlice/userSlice";
 import axios from "axios";
 import Link from "next/link";
-import React from "react";
+import { useRouter } from "next/router";
+import React, { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
+import toast from "react-hot-toast";
+import { useDispatch } from "react-redux";
 
 type Inputs = {
   name: string;
@@ -11,6 +16,9 @@ type Inputs = {
 };
 
 const Signup = () => {
+  const dispatch = useDispatch();
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
   const {
     register,
     handleSubmit,
@@ -18,7 +26,7 @@ const Signup = () => {
   } = useForm<Inputs>();
 
   const onSubmit: SubmitHandler<Inputs> = (data) => {
-    console.log(data);
+    setLoading(true);
     if (data) {
       axios
         .post("/api/auth/register", {
@@ -26,8 +34,18 @@ const Signup = () => {
           email: data.email,
           password: data.password,
         })
-        .then((res) => console.log(res))
-        .catch((err) => console.log(err));
+        .then((res) => {
+          if (res.data.user) {
+            SetCookies("user", res.data.user);
+            dispatch(setUser(res.data.user));
+            setLoading(false);
+            router.push("/");
+          }
+        })
+        .catch((err) => {
+          setLoading(false);
+          toast.error(`${err.response.data.message}`);
+        });
     }
   };
 

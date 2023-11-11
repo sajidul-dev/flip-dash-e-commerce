@@ -6,6 +6,8 @@ import Button from "../Button/Button";
 import { useDispatch } from "react-redux";
 import { setUser } from "@/redux/slice/userSlice/userSlice";
 import { RemoveCookies } from "../Cookies/Cookies";
+import { MdDashboard } from "react-icons/md";
+import Link from "next/link";
 
 const NavDropDown = ({
   openDropDown,
@@ -24,6 +26,12 @@ const NavDropDown = ({
           <AiOutlineHeart />
           My Wishlist
         </Button>
+        <Link
+          href="/dashboard/category"
+          className="flex items-center gap-4 hover:text-[#30C47E]">
+          <MdDashboard />
+          Dashboard
+        </Link>
         <Button
           onClick={handleLogout}
           className="flex items-center gap-4 hover:text-[#30C47E]">

@@ -16,9 +16,14 @@ import Button from "../Button/Button";
 import { RemoveCookies } from "../Cookies/Cookies";
 import { setUser } from "@/redux/slice/userSlice/userSlice";
 
-const Header = () => {
+interface Props {
+  openDropDown: boolean;
+  setOpenDropDown: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const Header = ({ openDropDown, setOpenDropDown }: Props) => {
   const dispatch = useDispatch();
-  const [openDropDown, setOpenDropDown] = useState(false);
+  // const [openDropDown, setOpenDropDown] = useState(false);
   const cartItem = useSelector((state: RootState) => state.cartReducer.items);
   const user = useSelector((state: RootState) => state.userReducer.user);
   const favouriteItem = useSelector(
@@ -64,22 +69,24 @@ const Header = () => {
                 route="/auth/register">
                 <BiUser />
                 <p>Sign up</p>
-                {/* <IoIosArrowDown />
-            <IoIosArrowUp /> */}
               </NavLink>
             </>
           ) : (
             <div
               // onMouseEnter={() => setOpenDropDown(true)}
               // onMouseLeave={() => setOpenDropDown(false)}
-              onClick={() => setOpenDropDown(!openDropDown)}
-              className="py-[14px] cursor-pointer flex items-center">
+              onClick={(e) => {
+                e.stopPropagation();
+                setOpenDropDown(!openDropDown);
+              }}
+              className="py-[14px] cursor-pointer flex items-center gap-3">
               {user.name}
+              {openDropDown ? <IoIosArrowDown /> : <IoIosArrowUp />}
             </div>
           )}
           <NavDropDown
             // onMouseEnter={(e) => e.stopPropagation()}
-            className={`absolute top-10 bg-white shadow-2xl mt-[30px] z-50 text-white w-[400px] transition-all ease-in-out duration-500 ${
+            className={`absolute top-10 right-8 bg-white shadow-2xl mt-[30px] z-50 text-white w-[400px] transition-all ease-in-out duration-500 ${
               openDropDown ? "h-[30vh] opacity-100" : "h-0 opacity-0"
             }`}
             openDropDown

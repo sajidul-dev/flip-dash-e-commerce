@@ -19,18 +19,9 @@ const Cart = () => {
   useEffect(() => {
     setCart(JSON.parse(localStorage.getItem("cart") || "[]"));
   }, []);
-  // useEffect(() => {
-  //   setPrice(0);
-  //   cartItem.map((item) => {
-  //     const quantity = cartItem.filter(
-  //       (element) => element._id === item?._id
-  //     ).length;
-  //     const itemPrice = quantity * item?.price;
-  //     console.log(itemPrice);
-  //     setPrice((prev) => prev + itemPrice);
-  //   });
-  // }, [cartItem]);
+
   const uniqueItems = Array.from(new Set(cart.map((item) => item._id)));
+
   const handleDelete = (id: number) => {
     const filteredItem = cart.filter((element) => element._id !== id);
     setCart(filteredItem);
