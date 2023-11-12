@@ -24,7 +24,6 @@ export default async function handler(req: Request, res: Response) {
 
   if (method == "GET") {
     const data = await Category.find({}).populate("parentCategory");
-
     return res.status(200).send({
       error: false,
       category: data,

@@ -4,21 +4,21 @@ import Input from "@/components/shared/Input/Input";
 import Loading from "@/components/shared/Loading/Loading";
 import { dbConnect } from "@/lib/mongoose";
 import { Category } from "@/models/category";
+import { RootState } from "@/redux/store/store";
 import { Categories } from "@/types/categoriesType";
 import axios from "axios";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
+import { useSelector } from "react-redux";
 
 type Inputs = {
   category: string;
   parentCategory: string | null;
 };
 
-const CategoryDashboard: React.FC<{ categories: Categories[] }> = ({
-  categories,
-}) => {
+const CategoryDashboard = () => {
   const {
     register,
     handleSubmit,
@@ -31,6 +31,9 @@ const CategoryDashboard: React.FC<{ categories: Categories[] }> = ({
     id: "",
     isEdit: false,
   });
+  const allCategories = useSelector(
+    (state: RootState) => state.categoriesReducer.categories
+  );
   const refreshData = () => {
     router.replace(router.asPath);
   };
@@ -52,32 +55,26 @@ const CategoryDashboard: React.FC<{ categories: Categories[] }> = ({
         .post("/api/admin/category", category)
         .then((res) => {
           if (res.data) {
-            // SetCookies("user", res.data.user);
-            // dispatch(setUser(res.data.user));
-            // setLoading(false);
-            // router.push("/");
             setLoading(false);
             refreshData();
-            console.log(res.data);
             reset();
+            toast.success(`${res.data.message}`);
           }
         })
         .catch((err) => {
           setLoading(false);
-          console.log(err);
           reset();
           toast.error(`${err.response.data.message}`);
         });
     }
   };
-  if (loading || !categories) {
+  if (loading) {
     return <Loading loading={loading} />;
   }
 
   return (
     <DashboardLayout>
       <div className="w-[60%] mx-auto">
-        {/* <p>Add a Product</p> */}
         {editCategory.value && (
           <Button
             onClick={() =>
@@ -101,7 +98,7 @@ const CategoryDashboard: React.FC<{ categories: Categories[] }> = ({
             type="text"
             defaultValue={
               editCategory.value
-                ? categories.find(
+                ? allCategories.find(
                     (category) => category._id === editCategory.id
                   )?.name
                 : ""
@@ -117,17 +114,34 @@ const CategoryDashboard: React.FC<{ categories: Categories[] }> = ({
             {...register("parentCategory")}
             className="block px-4 py-2 border border-[#86868b] rounded-md focus:outline-none focus:ring focus:border-[#0071e3] placeholder-gray-400">
             <option value="">No parent category</option>
+            {allCategories.map((category) => {
+              return (
+                <option value={category._id} key={category._id}>
+                  {category.name}
+                </option>
+              );
+            })}
           </select>
           <Input type="submit" value="Save"></Input>
         </form>
-        <div className="mt-8">
-          {categories.map((category) => {
-            return (
-              <div
-                key={category._id}
-                className="flex justify-between items-center gap-4 mb-3">
-                <p>{category.name}</p>
-                <div className="flex gap-4">
+        <table className="mt-8 basic w-full">
+          <thead className="pb-5">
+            <tr className="">
+              <th className="text-left">Category Name</th>
+              <th className="text-left">Parent Category</th>
+              <th className="text-left">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {allCategories.map((category) => (
+              <tr key={category._id} className="">
+                <td>{category.name}</td>
+                <td>
+                  {category.parentCategory
+                    ? category.parentCategory?.name
+                    : "No parent category"}
+                </td>
+                <td className="flex gap-4">
                   <Button
                     onClick={() =>
                       setEditCategory({ id: category._id, value: true })
@@ -138,25 +152,14 @@ const CategoryDashboard: React.FC<{ categories: Categories[] }> = ({
                   <Button className="bg-danger px-2 py-1 hover:bg-opacity-90">
                     Delete
                   </Button>
-                </div>
-              </div>
-            );
-          })}
-        </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     </DashboardLayout>
   );
 };
 
 export default CategoryDashboard;
-
-export const getServerSideProps = async () => {
-  try {
-    await dbConnect();
-    const categories = await Category.find({});
-    return { props: { categories: JSON.parse(JSON.stringify(categories)) } };
-  } catch (error) {
-    console.error("Error in getServerSideProps:", error);
-    return { props: { categories: [] } };
-  }
-};

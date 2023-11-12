@@ -29,3 +29,17 @@
 .underline-appear:hover::before {
   transform: scaleX(1);
 }
+
+table.basic {
+  @apply bg-white rounded-sm shadow-md;
+}
+table.basic thead tr td,
+table.basic thead tr th {
+  @apply text-sm text-gray uppercase border-b border-gray px-4 py-2;
+}
+table.basic tr td {
+  @apply px-4 py-1;
+}
+table.basic a {
+  @apply px-4 rounded-sm inline-flex mx-1 items-center gap-1 text-sm py-1;
+}

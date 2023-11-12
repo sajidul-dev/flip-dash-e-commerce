@@ -2,5 +2,9 @@ export interface Categories {
   _id: any;
   name: string;
   __v: number;
-  parentCategory?: string;
+  parentCategory?: {
+    _id: string;
+    name: string;
+    __v: number;
+  };
 }

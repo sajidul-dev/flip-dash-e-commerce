@@ -11,7 +11,7 @@ const Input: React.FC<InputProps> = ({ label, icon, register, ...props }) => {
   return (
     <div className="">
       {label && (
-        <label className="block text-gray-600 text-sm font-bold mb-2">
+        <label className="block text-gray text-sm font-bold mb-2">
           {label}
         </label>
       )}
@@ -27,6 +27,30 @@ const Input: React.FC<InputProps> = ({ label, icon, register, ...props }) => {
           className={`block px-4 py-2 border border-[#86868b] rounded-md focus:outline-none focus:ring focus:border-[#0071e3] placeholder-gray-400 ${props.className}`}
         />
       </div>
+    </div>
+  );
+};
+
+export interface ICommonTextAreaProps
+  extends React.HTMLProps<HTMLTextAreaElement> {
+  label?: string;
+  error?: string;
+  register?: UseFormRegisterReturn;
+}
+export const CommonTextArea: React.FC<ICommonTextAreaProps> = (props) => {
+  const { type, label, error, register } = props;
+  return (
+    <div className="mb-5">
+      {label && (
+        <label className="block text-gray text-sm font-bold mb-2">
+          {label}
+        </label>
+      )}
+      <textarea
+        {...props}
+        {...register}
+        className={`block px-4 py-2 border border-[#86868b] rounded-md focus:outline-none focus:ring focus:border-[#0071e3] placeholder-gray-400 ${props.className}`}></textarea>
+      <p className="text-danger">{error}</p>
     </div>
   );
 };
