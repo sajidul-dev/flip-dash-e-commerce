@@ -70,7 +70,7 @@ const CategoryDashboard: React.FC<{ categories: Categories[] }> = ({
         });
     }
   };
-  if (loading) {
+  if (loading || !categories) {
     return <Loading loading={loading} />;
   }
 
