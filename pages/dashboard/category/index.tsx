@@ -31,7 +31,6 @@ const CategoryDashboard: React.FC<{ categories: Categories[] }> = ({
     id: "",
     isEdit: false,
   });
-  console.log(categories);
   const refreshData = () => {
     router.replace(router.asPath);
   };
@@ -152,7 +151,12 @@ const CategoryDashboard: React.FC<{ categories: Categories[] }> = ({
 export default CategoryDashboard;
 
 export const getServerSideProps = async () => {
-  await dbConnect();
-  const categories = await Category.find({});
-  return { props: { categories: JSON.parse(JSON.stringify(categories)) } };
+  try {
+    await dbConnect();
+    const categories = await Category.find({});
+    return { props: { categories: JSON.parse(JSON.stringify(categories)) } };
+  } catch (error) {
+    console.error("Error in getServerSideProps:", error);
+    return { props: { categories: [] } };
+  }
 };
