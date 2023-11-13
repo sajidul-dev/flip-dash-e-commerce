@@ -87,7 +87,7 @@ const Header = ({ openDropDown, setOpenDropDown }: Props) => {
           <NavDropDown
             // onMouseEnter={(e) => e.stopPropagation()}
             className={`absolute top-10 right-8 bg-white shadow-2xl mt-[30px] z-50 text-white w-[400px] transition-all ease-in-out duration-500 ${
-              openDropDown ? "h-[30vh] opacity-100" : "h-0 opacity-0"
+              openDropDown ? "h-[200px] opacity-100" : "h-0 opacity-0"
             }`}
             openDropDown
             setOpenDropDown

@@ -14,6 +14,8 @@ import dynamic from "next/dynamic";
 import { setUser } from "@/redux/slice/userSlice/userSlice";
 import { GetCookies } from "../shared/Cookies/Cookies";
 import { setProduct } from "@/redux/slice/productSlice/productSlice";
+import axios from "axios";
+import { setCategories } from "@/redux/slice/categorySlice/categorySlice";
 
 const Header = dynamic(() => import("../shared/Navbar"), { ssr: false });
 
@@ -107,6 +109,14 @@ const products = [
 const Layout = ({ children }: Props) => {
   const dispatch = useDispatch();
   const [openDropDown, setOpenDropDown] = useState(false);
+
+  useEffect(() => {
+    axios
+      .get("/api/admin/category")
+      .then((res) => dispatch(setCategories(res.data.category)))
+      .catch((err) => console.log(err));
+  }, [dispatch]);
+
   useEffect(() => {
     const user = GetCookies("user");
     setTimeout(() => {

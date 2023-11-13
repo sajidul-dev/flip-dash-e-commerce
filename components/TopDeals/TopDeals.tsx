@@ -8,6 +8,7 @@ import {
 } from "@/redux/slice/favouriteSlice/favouriteSlice";
 import { RootState } from "@/redux/store/store";
 import { CartItem } from "@/types/productType";
+import axios from "axios";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
@@ -103,6 +104,7 @@ const TopDeals = () => {
   const router = useRouter();
   const [cart, setCart] = useState<CartItem[]>([]);
   const [favourite, setFavourite] = useState<CartItem[]>([]);
+  const [topDeals, setTopDeals] = useState<any>([]);
   const favouriteItem = useSelector(
     (state: RootState) => state.favouriteReducer.items
   );
@@ -114,6 +116,13 @@ const TopDeals = () => {
   useEffect(() => {
     setCart(JSON.parse(localStorage.getItem("cart") || "[]"));
     setFavourite(JSON.parse(localStorage.getItem("favourite") || "[]"));
+  }, []);
+
+  useEffect(() => {
+    axios
+      .get("api/admin/product")
+      .then((res) => setTopDeals(res.data.products))
+      .catch((err) => console.log(err));
   }, []);
 
   useEffect(() => {
@@ -148,7 +157,9 @@ const TopDeals = () => {
     }
   };
 
-  const handleNavigate = (id: number, category: string) => {
+  const handleNavigate = (id: string, category: string) => {
+    console.log(id);
+    console.log(category, "cat");
     router.push(`/product/${category}/${id}`);
   };
 
@@ -156,8 +167,8 @@ const TopDeals = () => {
     <div className="bg-white">
       <p className="p-4 text-xl font-semibold">Top Deals</p>
       <div className="flex flex-wrap gap-6 p-4">
-        {topDealsItems &&
-          topDealsItems.map((item) => {
+        {topDeals &&
+          topDeals.map((item: any) => {
             return (
               <div
                 key={item._id}
@@ -170,8 +181,8 @@ const TopDeals = () => {
                   // quality={100}
                   className="rounded-md"
                   priority={true}
-                  loader={() => item.image}
-                  src={item.image}
+                  loader={() => item.url}
+                  src={item.url}
                   alt=""
                 />
                 <div className="flex justify-center items-center gap-4">
