@@ -15,7 +15,10 @@ export const SetCookies = (name: string, value: any) => {
   //   cookies.set("status", "status", { path: "/" });
   //   cookies.set("created_at", "created_at", { path: "/" });
   //   cookies.set("updated_at", "updated_at", { path: "/" });
-  cookies.set(name, JSON.stringify(value));
+  cookies.set(name, JSON.stringify(value), {
+    path: "/",
+    expires: new Date(Date.now() + 86400000),
+  });
 };
 
 export const GetCookies = (name: string) => {
@@ -25,5 +28,5 @@ export const GetCookies = (name: string) => {
 
 export const RemoveCookies = (name: string) => {
   const cookies = new Cookies();
-  cookies.remove(name);
+  cookies.remove.bind(name);
 };

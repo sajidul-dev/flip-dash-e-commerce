@@ -33,6 +33,7 @@ export default async function handler(req: Request, res: Response) {
 
   if (method == "PUT") {
     const { name, parentCategory, _id, properties } = req.body;
+    console.log(req.body, "From server");
     const category = await Category.updateOne(
       { _id },
       {
@@ -49,11 +50,11 @@ export default async function handler(req: Request, res: Response) {
   }
 
   if (method === "DELETE") {
-    const { _id } = req.query;
-    const category = await Category.deleteOne({ _id });
+    const { id } = req.query;
+    const category = await Category.deleteOne({ _id: id });
     return res.status(200).send({
       error: false,
-      category: null,
+      category: category,
       message: "Category deleted successfully",
     });
   }

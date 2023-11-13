@@ -32,6 +32,8 @@ const ProductDashboard = () => {
   const categories = useSelector(
     (state: RootState) => state.categoriesReducer.categories
   );
+  const shop = useSelector((state: RootState) => state.sellerReducer.seller);
+
   const {
     register,
     handleSubmit,
@@ -53,7 +55,6 @@ const ProductDashboard = () => {
       axios
         .post(`https://api.imgbb.com/1/upload?key=${imgbbAPI}`, formData)
         .then((res) => {
-          console.log(res.data.data);
           if (res.data) {
             axios
               .post("/api/admin/product", {
@@ -70,6 +71,7 @@ const ProductDashboard = () => {
                   },
                 ],
                 url: res.data.data.display_url,
+                shopId: shop?._id,
               })
               .then((res) => {
                 if (res.data) {

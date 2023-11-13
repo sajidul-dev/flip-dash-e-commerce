@@ -16,6 +16,8 @@ import { GetCookies } from "../shared/Cookies/Cookies";
 import { setProduct } from "@/redux/slice/productSlice/productSlice";
 import axios from "axios";
 import { setCategories } from "@/redux/slice/categorySlice/categorySlice";
+import { setSeller } from "@/redux/slice/sellerSlice/sellerSlice";
+import { BsFillArrowUpCircleFill } from "react-icons/bs";
 
 const Header = dynamic(() => import("../shared/Navbar"), { ssr: false });
 
@@ -119,6 +121,7 @@ const Layout = ({ children }: Props) => {
 
   useEffect(() => {
     const user = GetCookies("user");
+    const seller = GetCookies("seller");
     setTimeout(() => {
       dispatch(setDefaultCart([]));
       dispatch(setDefaultFavourite([]));
@@ -134,16 +137,20 @@ const Layout = ({ children }: Props) => {
       });
     }, 500);
     dispatch(setUser(user));
+    dispatch(setSeller(seller));
     dispatch(setProduct(products));
   }, [dispatch]);
   return (
     <>
       <div
         onClick={() => setOpenDropDown(false)}
-        className="bg-common flex flex-col min-h-screen">
+        className="bg-common relative flex flex-col min-h-screen">
         <Header setOpenDropDown={setOpenDropDown} openDropDown={openDropDown} />
         <main className="flex-grow">{children}</main>
         <Footer />
+        <div className="absolute bottom-20 text-5xl text-secondary right-5 cursor-pointer">
+          <BsFillArrowUpCircleFill />
+        </div>
       </div>
     </>
   );

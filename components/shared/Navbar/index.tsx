@@ -13,8 +13,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store/store";
 import Cookies from "universal-cookie";
 import Button from "../Button/Button";
-import { RemoveCookies } from "../Cookies/Cookies";
+import { RemoveCookies, SetCookies } from "../Cookies/Cookies";
 import { setUser } from "@/redux/slice/userSlice/userSlice";
+import { setSeller } from "@/redux/slice/sellerSlice/sellerSlice";
 
 interface Props {
   openDropDown: boolean;
@@ -29,10 +30,17 @@ const Header = ({ openDropDown, setOpenDropDown }: Props) => {
   const favouriteItem = useSelector(
     (state: RootState) => state.favouriteReducer.items
   );
+  const shop = useSelector((state: RootState) => state.sellerReducer.seller);
   const handleLogout = () => {
     RemoveCookies("user");
     dispatch(setUser(null));
+    RemoveCookies("seller");
+    dispatch(setSeller(null));
     setOpenDropDown(false);
+    // SetCookies("seller", null);
+    // SetCookies("user", null);
+    // const cookie = document.cookie;
+    // console.log(cookie);
   };
 
   return (
@@ -48,13 +56,14 @@ const Header = ({ openDropDown, setOpenDropDown }: Props) => {
           />
         </div>
         <div className="flex gap-8">
+          {/* /dashboard/shop */}
           <NavLink
             className="px-[10px] flex items-center space-x-2 hover:bg-common hover:rounded-lg"
-            route="/auth/seller">
+            route={shop ? "/dashboard/shop" : "/auth/seller"}>
             <BsInboxes />
-            <p>Become a Seller</p>
+            <p>{shop ? shop.shopName : "Become a Seller"}</p>
           </NavLink>
-          {!user ? (
+          {!user && !shop ? (
             <>
               <NavLink
                 className="px-[10px] flex items-center space-x-2 hover:bg-common hover:rounded-lg"
@@ -80,7 +89,7 @@ const Header = ({ openDropDown, setOpenDropDown }: Props) => {
                 setOpenDropDown(!openDropDown);
               }}
               className="py-[14px] cursor-pointer flex items-center gap-3">
-              {user.name}
+              {shop ? shop.name : user?.name}
               {openDropDown ? <IoIosArrowDown /> : <IoIosArrowUp />}
             </div>
           )}

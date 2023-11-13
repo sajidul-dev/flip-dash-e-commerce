@@ -1,6 +1,7 @@
 import { SetCookies } from "@/components/shared/Cookies/Cookies";
 import Input from "@/components/shared/Input/Input";
 import Loading from "@/components/shared/Loading/Loading";
+import { setSeller } from "@/redux/slice/sellerSlice/sellerSlice";
 import { setUser } from "@/redux/slice/userSlice/userSlice";
 import axios from "axios";
 import Link from "next/link";
@@ -37,6 +38,12 @@ const Login = () => {
           if (res.data.user) {
             SetCookies("user", res.data.user);
             dispatch(setUser(res.data.user));
+            setLoading(false);
+            router.push("/");
+          } else {
+            console.log(res.data);
+            SetCookies("seller", res.data.shop);
+            dispatch(setSeller(res.data.shop));
             setLoading(false);
             router.push("/");
           }

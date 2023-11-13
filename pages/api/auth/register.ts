@@ -22,7 +22,7 @@ export default async function handler(req: Request, res: Response) {
     res.status(200).send({
       error: false,
       user: { _id: userDoc._id, name: userDoc.name, email: userDoc.email },
-      message: "Log in successfull",
+      message: "User created successfully",
     });
   }
 }

@@ -20,7 +20,8 @@ export default async function handler(req: Request, res: Response) {
     }
   }
   if (method == "POST") {
-    const { title, description, price, category, properties, url } = req.body;
+    const { title, description, price, category, properties, url, shopId } =
+      req.body;
     const productDoc = await Product.create({
       title,
       description,
@@ -28,6 +29,7 @@ export default async function handler(req: Request, res: Response) {
       category,
       properties,
       url,
+      shopId,
     });
     return res.status(200).send({
       error: false,

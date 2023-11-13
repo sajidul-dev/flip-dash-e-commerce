@@ -50,6 +50,35 @@ const CategoryDashboard = () => {
       };
     }
     setLoading(true);
+    if (editCategory.isEdit) {
+      if (data) {
+        axios
+          .put("/api/admin/category", {
+            _id: editCategory.id,
+            name: data.category,
+            parentCategory: data.parentCategory,
+          })
+          .then((res) => {
+            if (res.data) {
+              console.log(res.data);
+              setLoading(false);
+              refreshData();
+              reset();
+              setEditCategory({
+                id: "",
+                isEdit: false,
+              });
+              toast.success(`${res.data.message}`);
+            }
+          })
+          .catch((err) => {
+            setLoading(false);
+            reset();
+            toast.error(`${err.response.data.message}`);
+          });
+      }
+      return;
+    }
     if (data) {
       axios
         .post("/api/admin/category", category)
@@ -68,6 +97,23 @@ const CategoryDashboard = () => {
         });
     }
   };
+  const handleDeleteCategory = (id: string) => {
+    axios
+      .delete(`/api/admin/category?id=${id}`)
+      .then((res) => {
+        if (res.data) {
+          setLoading(false);
+          refreshData();
+          toast.success(`${res.data.message}`);
+        }
+      })
+      .catch((err) => {
+        setLoading(false);
+        reset();
+        toast.error(`${err.response.data.message}`);
+      });
+  };
+
   if (loading) {
     return <Loading loading={loading} />;
   }
@@ -149,7 +195,9 @@ const CategoryDashboard = () => {
                     className="bg-secondary px-2 py-1 hover:bg-opacity-90">
                     Edit
                   </Button>
-                  <Button className="bg-danger px-2 py-1 hover:bg-opacity-90">
+                  <Button
+                    onClick={() => handleDeleteCategory(category._id)}
+                    className="bg-danger px-2 py-1 hover:bg-opacity-90">
                     Delete
                   </Button>
                 </td>
