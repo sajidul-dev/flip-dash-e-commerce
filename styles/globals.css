@@ -29,7 +29,6 @@
 .underline-appear:hover::before {
   transform: scaleX(1);
 }
-
 table.basic {
   @apply bg-white rounded-sm shadow-md;
 }

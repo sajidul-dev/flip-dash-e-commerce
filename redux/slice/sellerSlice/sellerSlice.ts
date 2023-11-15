@@ -9,6 +9,8 @@ export interface Seller {
   shopLocation: string;
   shopCategory: string;
   phone: string;
+  coverPhoto: string;
+  profilePhoto: string;
 }
 
 export interface SellerState {

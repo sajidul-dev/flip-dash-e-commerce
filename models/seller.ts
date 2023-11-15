@@ -3,23 +3,23 @@ import mongoose, { Schema, models } from "mongoose";
 const userSchema = new Schema({
   name: {
     type: String,
-    required: true,
+    // required: true,
   },
   email: {
     type: String,
-    required: true,
+    // required: true,
   },
   password: {
     type: String,
-    required: true,
+    // required: true,
   },
   shopName: {
     type: String,
-    required: true,
+    // required: true,
   },
   shopLocation: {
     type: String,
-    required: true,
+    // required: true,
   },
   shopCategory: {
     type: String,
@@ -28,6 +28,12 @@ const userSchema = new Schema({
   phone: {
     type: String,
     required: true,
+  },
+  coverPhoto: {
+    type: String,
+  },
+  profilePhoto: {
+    type: String,
   },
 });
 

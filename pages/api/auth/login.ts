@@ -23,6 +23,8 @@ export default async function handler(req: Request, res: Response) {
               shopLocation: seller.shopLocation,
               shopCategory: seller.shopCategory,
               phone: seller.phone,
+              coverPhoto: seller.coverPhoto,
+              profilePhoto: seller.profilePhoto,
             },
             message: "Log in successfull",
           });
@@ -39,12 +41,5 @@ export default async function handler(req: Request, res: Response) {
       }
       return res.status(400).send({ error: true, message: "User not found" });
     }
-    // const hashedPassword = await bcrypt.hash(password, 10);
-    // const userDoc = await User.create({
-    //   name,
-    //   email,
-    //   password: hashedPassword,
-    // });
-    // res.send({ userDoc, status: 200 });
   }
 }
