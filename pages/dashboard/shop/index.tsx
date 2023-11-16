@@ -2,6 +2,7 @@ import DashboardLayout from "@/components/layout/DashboardLayout";
 import Button from "@/components/shared/Button/Button";
 import Loading from "@/components/shared/Loading/Loading";
 import { RootState } from "@/redux/store/store";
+import { Product } from "@/types/productType";
 import axios from "axios";
 import Image from "next/image";
 import React, { ChangeEvent, useEffect, useRef, useState } from "react";
@@ -17,11 +18,11 @@ const Shop = () => {
   const profileInputRef = useRef<HTMLInputElement | null>(null);
   const [loading, setLoading] = useState(false);
   const [shopCategory, setShopCategory] = useState<string | undefined>("");
+  const [shopProducts, setShopProducts] = useState<Product[]>([]);
   const shop = useSelector((state: RootState) => state.sellerReducer.seller);
   const categories = useSelector(
     (state: RootState) => state.categoriesReducer.categories
   );
-
   useEffect(() => {
     const findedCategory = categories.find(
       (category) => category._id == shop?.shopCategory
@@ -30,6 +31,15 @@ const Shop = () => {
       setShopCategory(findedCategory.name);
     }
   }, [categories, shop]);
+
+  useEffect(() => {
+    if (shop) {
+      axios
+        .get(`/api/seller/products?id=${shop._id}`)
+        .then((res) => setShopProducts(res.data.products))
+        .catch((err) => toast.error(err.response.data.message, { id: "1" }));
+    }
+  }, [shop]);
 
   const handleButtonClick = (isCover: boolean) => {
     if (isCover) {
@@ -188,9 +198,84 @@ const Shop = () => {
           {shop?.shopName}
         </p>
         <div className="mt-10">{shopCategory}</div>
+        <div>
+          <table className="mt-8 w-full">
+            <thead className="pb-5">
+              <tr className="capitalize">
+                <th className="text-left flex gap-x-2">Product image</th>
+                <th className="text-left">Product Title</th>
+                <th className="text-left">Price</th>
+              </tr>
+            </thead>
+            <tbody>
+              {shopProducts.length > 0
+                ? shopProducts.map((item) => {
+                    return (
+                      <tr
+                        key={item._id}
+                        className="bg-[#FFFFFF] hover:bg-gray hover:shadow-md rounded-md">
+                        <td>
+                          <Image
+                            style={{
+                              width: "60px",
+                              height: "60px",
+                              borderRadius: "100%",
+                            }}
+                            width={1100}
+                            // unoptimized
+                            height={200}
+                            quality={100}
+                            className="rounded-md"
+                            priority={true}
+                            loader={() => item.url}
+                            src={item.url}
+                            alt=""
+                          />
+                        </td>
+                        <td>{item.title}</td>
+                        <td>
+                          <span className="font-medium">${item.price}</span>
+                        </td>
+                        {/* <td>
+                        {category.parentCategory
+                          ? category.parentCategory?.name
+                          : "No parent category"}
+                      </td> */}
+                        {/* <td className="">
+                        <div className="flex gap-4">
+                          <Button
+                            onClick={() =>
+                              setEditCategory({ id: category._id, value: true })
+                            }
+                            className="bg-secondary px-2 py-1 hover:bg-opacity-90">
+                            Edit
+                          </Button>
+                          <Button
+                            onClick={() => handleDeleteCategory(category._id)}
+                            className="bg-danger px-2 py-1 hover:bg-opacity-90">
+                            Delete
+                          </Button>
+                        </div>
+                      </td> */}
+                      </tr>
+                    );
+                  })
+                : " "}
+            </tbody>
+          </table>
+        </div>
       </div>
     </DashboardLayout>
   );
 };
 
 export default Shop;
+
+// export async function getServerSideProps(context: any) {
+//   const res = await axios
+//     .get("/api/auth/seller/products")
+//     .then((res) => console.log(res.data));
+//   return { props: { data: res } };
+//   // const;
+//   // console.log(context, "Context");
+// }

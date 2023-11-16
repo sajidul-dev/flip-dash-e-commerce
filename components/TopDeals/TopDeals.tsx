@@ -7,7 +7,7 @@ import {
   setDefaultFavourite,
 } from "@/redux/slice/favouriteSlice/favouriteSlice";
 import { RootState } from "@/redux/store/store";
-import { CartItem } from "@/types/productType";
+import { CartItem, Product } from "@/types/productType";
 import axios from "axios";
 import Image from "next/image";
 import { useRouter } from "next/router";
@@ -102,8 +102,8 @@ const TopDeals = () => {
   // ]);
   const dispatch = useDispatch();
   const router = useRouter();
-  const [cart, setCart] = useState<CartItem[]>([]);
-  const [favourite, setFavourite] = useState<CartItem[]>([]);
+  const [cart, setCart] = useState<Product[]>([]);
+  const [favourite, setFavourite] = useState<Product[]>([]);
   const [topDeals, setTopDeals] = useState<any>([]);
   const favouriteItem = useSelector(
     (state: RootState) => state.favouriteReducer.items
@@ -140,11 +140,11 @@ const TopDeals = () => {
     }, 500);
   }, [cart, favourite, dispatch]);
 
-  const addToCart = (item: CartItem) => {
+  const addToCart = (item: Product) => {
     if (!user) return toast.error("Please login to continue", { id: "1" });
     setCart((prev: any) => [...prev, item]);
   };
-  const addToFavourite = (item: CartItem) => {
+  const addToFavourite = (item: Product) => {
     if (!user) return toast.error("Please login to continue", { id: "1" });
     const foundItem = favouriteItem.find((element) => element._id === item._id);
     if (foundItem) {
@@ -168,7 +168,7 @@ const TopDeals = () => {
       <p className="p-4 text-xl font-semibold">Top Deals</p>
       <div className="flex flex-wrap gap-6 p-4">
         {topDeals &&
-          topDeals.map((item: any) => {
+          topDeals.map((item: Product) => {
             return (
               <div
                 key={item._id}

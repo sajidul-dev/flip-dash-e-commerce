@@ -20,6 +20,7 @@ type Inputs = {
   image: any;
   propertyName: string;
   propertyValue: string;
+  quantity: number;
 };
 
 const ProductDashboard = () => {
@@ -48,7 +49,19 @@ const ProductDashboard = () => {
 
   const onSubmit: SubmitHandler<Inputs> = (data) => {
     // console.log(data);
-
+    // if (typeof data.quantity !== "number") {
+    //   setError("quantity", {
+    //     type: "manual",
+    //     message: "Quantity must be a number",
+    //   });
+    //   return;
+    // } else if (typeof data.price !== "number") {
+    //   setError("price", {
+    //     type: "manual",
+    //     message: "Price must be a number",
+    //   });
+    //   return;
+    // }
     if (data.image[0]) {
       const formData = new FormData();
       formData.append("image", data.image[0]);
@@ -72,6 +85,7 @@ const ProductDashboard = () => {
                 ],
                 url: res.data.data.display_url,
                 shopId: shop?._id,
+                quantity: data.quantity,
               })
               .then((res) => {
                 if (res.data) {
@@ -90,60 +104,6 @@ const ProductDashboard = () => {
           }
         });
     }
-    // for (const property in data) {
-
-    // if (
-    //   (data.propertyName !== "" && data.propertyValue !== "") ||
-    //   (data.propertyName === "" && data.propertyValue === "")
-    // ) {
-    //   console.log(data);
-    //   // console.log(`${property}: ${data[property]}`);
-    // } else {
-    //   if (data.propertyName === "") {
-    //     setError("propertyName", { message: "Please add property name" });
-    //   } else {
-    //     setError("propertyValue", { message: "Please add property value" });
-    //   }
-    // switch (data) {
-    //   case data.propertyName === "":
-
-    // case data.propertyValue === "":
-    // }
-    // }
-    // }
-    // if (data.parentCategory == "") {
-    //   category = {
-    //     title: data.name,
-    //   };
-    // } else {
-    //   category = {
-    //     name: data.category,
-    //     parentCategory: data.parentCategory,
-    //   };
-    // }
-    // setLoading(true);
-    // if (data) {
-    //   axios
-    //     .post("/api/admin/category", category)
-    //     .then((res) => {
-    //       if (res.data) {
-    //         // SetCookies("user", res.data.user);
-    //         // dispatch(setUser(res.data.user));
-    //         // setLoading(false);
-    //         // router.push("/");
-    //         setLoading(false);
-    //         refreshData();
-    //         console.log(res.data);
-    //         reset();
-    //       }
-    //     })
-    //     .catch((err) => {
-    //       setLoading(false);
-    //       console.log(err);
-    //       reset();
-    //       toast.error(`${err.response.data.message}`);
-    //     });
-    // }
   };
 
   if (loading) {
@@ -153,7 +113,7 @@ const ProductDashboard = () => {
   return (
     <DashboardLayout>
       <div className="w-[60%] mx-auto">
-        <p className="text-center mb-4">Create new product</p>
+        <p className="text-center font-medium mb-4">Create new product</p>
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
           <Input
             register={register("title", {
@@ -163,21 +123,11 @@ const ProductDashboard = () => {
               },
             })}
             type="text"
-            // defaultValue={
-            //   editCategory.value
-            //     ? categories.find(
-            //         (category) => category._id === editCategory.id
-            //       )?.name
-            //     : ""
-            // }
-            placeholder="Enter your category name"
-            // label={`${editCategory.value ? "Edit" : "Create"} a category`}
+            placeholder="Enter your product title"
             label="Name"
             className="w-full"
+            error={errors.title?.message}
           />
-          {errors.title && (
-            <p className="text-danger">{errors.title.message}</p>
-          )}
           <label className="block text-gray text-sm font-bold mb-2">
             Category
           </label>
@@ -213,10 +163,11 @@ const ProductDashboard = () => {
                 placeholder="Property name. Ex: color"
                 register={register("propertyName")}
                 className="w-full"
+                error={errors.propertyName?.message}
               />
-              {errors.propertyName && (
+              {/* {errors.propertyName && (
                 <p className="text-danger">{errors.propertyName.message}</p>
-              )}
+              )} */}
             </div>
             <div>
               <Input
@@ -225,10 +176,11 @@ const ProductDashboard = () => {
                 placeholder="Values. Ex: black"
                 register={register("propertyValue")}
                 className="w-full"
+                error={errors.propertyValue?.message}
               />
-              {errors.propertyValue && (
+              {/* {errors.propertyValue && (
                 <p className="text-danger">{errors.propertyValue.message}</p>
-              )}
+              )} */}
             </div>
           </div>
           <CommonTextArea
@@ -241,6 +193,20 @@ const ProductDashboard = () => {
             label="Description"
             placeholder="Enter your product description"
             className="w-full"
+            error={errors.description?.message}
+          />
+          <Input
+            register={register("quantity", {
+              required: {
+                value: true,
+                message: "Quantity is required",
+              },
+            })}
+            type="number"
+            placeholder="Enter quantity"
+            label="Quantity"
+            className="w-full"
+            error={errors.quantity?.message}
           />
           <Input
             register={register("price", {
@@ -253,6 +219,7 @@ const ProductDashboard = () => {
             placeholder="Enter product price"
             label="Price"
             className="w-full"
+            error={errors.price?.message}
           />
           <Input type="submit" value="Save"></Input>
         </form>

@@ -170,36 +170,40 @@ const CategoryDashboard = () => {
           </select>
           <Input type="submit" value="Save"></Input>
         </form>
-        <table className="mt-8 basic w-full">
+        <table className="mt-8 w-full">
           <thead className="pb-5">
             <tr className="">
-              <th className="text-left">Category Name</th>
+              <th className="text-left flex gap-x-2">Category Name</th>
               <th className="text-left">Parent Category</th>
               <th className="text-left">Action</th>
             </tr>
           </thead>
           <tbody>
             {allCategories.map((category) => (
-              <tr key={category._id} className="">
+              <tr
+                key={category._id}
+                className="bg-[#FFFFFF] hover:bg-gray hover:shadow-md rounded-md">
                 <td>{category.name}</td>
                 <td>
                   {category.parentCategory
                     ? category.parentCategory?.name
                     : "No parent category"}
                 </td>
-                <td className="flex gap-4">
-                  <Button
-                    onClick={() =>
-                      setEditCategory({ id: category._id, value: true })
-                    }
-                    className="bg-secondary px-2 py-1 hover:bg-opacity-90">
-                    Edit
-                  </Button>
-                  <Button
-                    onClick={() => handleDeleteCategory(category._id)}
-                    className="bg-danger px-2 py-1 hover:bg-opacity-90">
-                    Delete
-                  </Button>
+                <td className="">
+                  <div className="flex gap-4">
+                    <Button
+                      onClick={() =>
+                        setEditCategory({ id: category._id, value: true })
+                      }
+                      className="bg-secondary px-2 py-1 hover:bg-opacity-90">
+                      Edit
+                    </Button>
+                    <Button
+                      onClick={() => handleDeleteCategory(category._id)}
+                      className="bg-danger px-2 py-1 hover:bg-opacity-90">
+                      Delete
+                    </Button>
+                  </div>
                 </td>
               </tr>
             ))}

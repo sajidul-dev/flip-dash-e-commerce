@@ -9,13 +9,14 @@ const ProductSchema = new Schema(
     price: { type: Number, required: true },
     category: { type: mongoose.Schema.Types.ObjectId, ref: Category },
     properties: [{ type: Object }],
-    reviews: [{ type: String }],
     url: { type: String, required: true },
     shopId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: Seller,
       required: true,
     },
+    quantity: { type: Number, required: true },
+    totalOrders: { type: Number },
   },
   {
     timestamps: true,

@@ -20,8 +20,16 @@ export default async function handler(req: Request, res: Response) {
     }
   }
   if (method == "POST") {
-    const { title, description, price, category, properties, url, shopId } =
-      req.body;
+    const {
+      title,
+      description,
+      price,
+      category,
+      properties,
+      url,
+      shopId,
+      quantity,
+    } = req.body;
     const productDoc = await Product.create({
       title,
       description,
@@ -30,6 +38,7 @@ export default async function handler(req: Request, res: Response) {
       properties,
       url,
       shopId,
+      quantity,
     });
     return res.status(200).send({
       error: false,
@@ -41,7 +50,6 @@ export default async function handler(req: Request, res: Response) {
   if (method === "PUT") {
     const { title, description, price, category, properties, url, _id } =
       req.body;
-    console.log("from server", title, description, price);
     await Product.updateOne(
       { _id },
       { title, description, price, category, url, properties }

@@ -1,16 +1,19 @@
 export interface CartItem {
-  _id: number;
-  title: string;
-  comment: string;
-  image: string;
-  price: number;
-}
-
-export interface Product {
-  _id: number;
+  _id: string;
   title: string;
   category: string;
   comment: string;
   price: number;
   image: string;
+  url: string;
+}
+
+export interface Product {
+  _id: string;
+  title: string;
+  category: string;
+  comment: string;
+  price: number;
+  image: string;
+  url: string;
 }

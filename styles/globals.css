@@ -29,7 +29,7 @@
 .underline-appear:hover::before {
   transform: scaleX(1);
 }
-table.basic {
+/* table.basic {
   @apply bg-white rounded-sm shadow-md;
 }
 table.basic thead tr td,
@@ -41,4 +41,72 @@ table.basic tr td {
 }
 table.basic a {
   @apply px-4 rounded-sm inline-flex mx-1 items-center gap-1 text-sm py-1;
+} */
+table {
+  border-collapse: separate !important;
+  border-spacing: 0 14px !important;
+  margin-top: -14px;
+}
+th:first-child {
+  position: static !important;
+}
+thead {
+  background-color: #f1f2f4;
+}
+
+tbody tr:hover {
+  color: #fff;
+}
+tr:hover svg {
+  color: #fff;
+}
+td {
+  background-color: transparent !important;
+  border-style: solid none;
+  padding: 16px 12px !important;
+}
+th {
+  background-color: transparent !important;
+  border-style: solid none;
+  padding: 16px 12px !important;
+}
+td:first-child {
+  border-left-style: solid;
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+  border-radius: 12px 0 0 12px;
+}
+td:last-child {
+  border-right-style: solid;
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+  border-radius: 0 12px 12px 0;
+}
+th:first-child {
+  border-left-style: solid;
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+  border-radius: 12px 0 0 12px;
+}
+th:last-child {
+  border-right-style: solid;
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+  border-radius: 0 12px 12px 0;
+}
+
+/* For modern browsers that support the "appearance" property */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* For Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+input[type="number"] {
+  /* pointer-events: none; */
+  /* scroll-behavior: none; */
 }
