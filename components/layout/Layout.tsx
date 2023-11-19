@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 // import Header from "../shared/Navbar";
 import Footer from "../shared/Footer/Footer";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
+  setCart,
   setCart as setCartAction,
   setDefaultCart,
 } from "@/redux/slice/cartSlice/cartSlice";
@@ -18,6 +19,8 @@ import axios from "axios";
 import { setCategories } from "@/redux/slice/categorySlice/categorySlice";
 import { setSeller } from "@/redux/slice/sellerSlice/sellerSlice";
 import { BsFillArrowUpCircleFill } from "react-icons/bs";
+import toast from "react-hot-toast";
+import { RootState } from "@/redux/store/store";
 
 const Header = dynamic(() => import("../shared/Navbar"), { ssr: false });
 
@@ -111,13 +114,46 @@ const products = [
 const Layout = ({ children }: Props) => {
   const dispatch = useDispatch();
   const [openDropDown, setOpenDropDown] = useState(false);
+  const user = useSelector((state: RootState) => state.userReducer.user);
+
+  // const fetchCartData = async () => {
+  //   try {
+  //     const response = await axios.get(`/api/user/cart?id=${user?._id}`);
+  //     const cart = response.data.cart;
+  //     dispatch(setCart(cart));
+  //   } catch (error) {
+  //     console.error(error);
+  //     dispatch(setDefaultCart([]));
+  //   }
+  // };
 
   useEffect(() => {
+    let isMounted = true;
+    const fetchCartData = async () => {
+      try {
+        const response = await axios.get(`/api/user/cart?id=${user?._id}`);
+        const cart = response.data.cart;
+        console.log(cart, "Cart");
+        if (isMounted) {
+          dispatch(setCart(cart));
+        }
+      } catch (error) {
+        console.error(error);
+        dispatch(setDefaultCart([]));
+      }
+    };
     axios
       .get("/api/admin/category")
       .then((res) => dispatch(setCategories(res.data.category)))
       .catch((err) => console.log(err));
-  }, [dispatch]);
+    if (user) {
+      fetchCartData();
+    }
+
+    return () => {
+      isMounted = false;
+    };
+  }, [dispatch, user]);
 
   useEffect(() => {
     const user = GetCookies("user");

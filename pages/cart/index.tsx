@@ -22,14 +22,14 @@ const Cart = () => {
 
   const uniqueItems = Array.from(new Set(cart.map((item) => item._id)));
 
-  const handleDelete = (id: number) => {
-    const filteredItem = cart.filter((element) => element._id !== id);
-    setCart(filteredItem);
-    localStorage.setItem("cart", JSON.stringify(filteredItem));
-    dispatch(setDefaultCart([]));
-    filteredItem.map((item) => {
-      dispatch(setCartAction(item));
-    });
+  const handleDelete = (id: string) => {
+    // const filteredItem = cart.filter((element) => element._id !== id);
+    // setCart(filteredItem);
+    // localStorage.setItem("cart", JSON.stringify(filteredItem));
+    // dispatch(setDefaultCart([]));
+    // filteredItem.map((item) => {
+    //   dispatch(setCartAction(item));
+    // });
   };
 
   const handleIncreaseItem = (item: CartItem) => {
@@ -100,8 +100,8 @@ const Cart = () => {
                             quality={100}
                             className="rounded-md h-[80px]"
                             priority={true}
-                            loader={() => item.image}
-                            src={item.image}
+                            loader={() => item.url}
+                            src={item.url}
                             alt=""
                           />
                         )}
@@ -113,27 +113,14 @@ const Cart = () => {
                               onClick={() => item && handleDecreaseItem(item)}>
                               -
                             </Button>
-                            <p>
-                              {cartItem &&
-                                cartItem.filter(
-                                  (element) => element._id === item?._id
-                                ).length}
-                            </p>
+                            <p>{item?.quantity}</p>
                             <Button
                               onClick={() => item && handleIncreaseItem(item)}
                               className="cursor-pointer">
                               +
                             </Button>
                           </div>
-                          <div>
-                            {item &&
-                              item?.price *
-                                (cartItem &&
-                                  cartItem.filter(
-                                    (element) => element._id === item?._id
-                                  ).length)}
-                            $
-                          </div>
+                          <div>{item?.totalPrice}$</div>
                         </div>
                         <Button
                           onClick={() => handleDelete(itemId)}

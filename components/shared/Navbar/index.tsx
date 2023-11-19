@@ -1,19 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import NavLink from "./NavLink";
 import NavDropDown from "./NavDropDown";
-import { useRouter } from "next/router";
 import Icon from "../Icon/Icon";
 import Input from "../Input/Input";
 import { BsInboxes } from "react-icons/bs";
 import { BiUser } from "react-icons/bi";
 import { AiOutlineShoppingCart } from "react-icons/ai";
-import { MdOutlineFavorite, MdOutlineFavoriteBorder } from "react-icons/md";
+import { MdOutlineFavorite } from "react-icons/md";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store/store";
-import Cookies from "universal-cookie";
-import Button from "../Button/Button";
-import { RemoveCookies, SetCookies } from "../Cookies/Cookies";
+import { RemoveCookies } from "../Cookies/Cookies";
 import { setUser } from "@/redux/slice/userSlice/userSlice";
 import { setSeller } from "@/redux/slice/sellerSlice/sellerSlice";
 
@@ -24,7 +21,6 @@ interface Props {
 
 const Header = ({ openDropDown, setOpenDropDown }: Props) => {
   const dispatch = useDispatch();
-  // const [openDropDown, setOpenDropDown] = useState(false);
   const cartItem = useSelector((state: RootState) => state.cartReducer.items);
   const user = useSelector((state: RootState) => state.userReducer.user);
   const favouriteItem = useSelector(
@@ -37,10 +33,6 @@ const Header = ({ openDropDown, setOpenDropDown }: Props) => {
     RemoveCookies("seller");
     dispatch(setSeller(null));
     setOpenDropDown(false);
-    // SetCookies("seller", null);
-    // SetCookies("user", null);
-    // const cookie = document.cookie;
-    // console.log(cookie);
   };
 
   return (
@@ -56,7 +48,6 @@ const Header = ({ openDropDown, setOpenDropDown }: Props) => {
           />
         </div>
         <div className="flex gap-8">
-          {/* /dashboard/shop */}
           <NavLink
             className="px-[10px] flex items-center space-x-2 hover:bg-common hover:rounded-lg"
             route={shop ? "/dashboard/shop" : "/auth/seller"}>
@@ -70,8 +61,6 @@ const Header = ({ openDropDown, setOpenDropDown }: Props) => {
                 route="/auth/login">
                 <BiUser />
                 <p>Sign in</p>
-                {/* <IoIosArrowDown />
-            <IoIosArrowUp /> */}
               </NavLink>
               <NavLink
                 className="px-[10px] flex items-center space-x-2 hover:bg-common hover:rounded-lg"
@@ -82,8 +71,6 @@ const Header = ({ openDropDown, setOpenDropDown }: Props) => {
             </>
           ) : (
             <div
-              // onMouseEnter={() => setOpenDropDown(true)}
-              // onMouseLeave={() => setOpenDropDown(false)}
               onClick={(e) => {
                 e.stopPropagation();
                 setOpenDropDown(!openDropDown);
@@ -94,7 +81,6 @@ const Header = ({ openDropDown, setOpenDropDown }: Props) => {
             </div>
           )}
           <NavDropDown
-            // onMouseEnter={(e) => e.stopPropagation()}
             className={`absolute top-10 right-8 bg-white shadow-2xl mt-[30px] z-50 text-white w-[400px] transition-all ease-in-out duration-500 ${
               openDropDown ? "h-[200px] opacity-100" : "h-0 opacity-0"
             }`}
