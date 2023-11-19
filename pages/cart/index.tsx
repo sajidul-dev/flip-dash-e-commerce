@@ -38,9 +38,9 @@ const Cart = () => {
     localStorage.setItem("cart", JSON.stringify(updatedCart));
     dispatch(setDefaultCart([]));
 
-    updatedCart.forEach((cartItem) => {
-      dispatch(setCartAction(cartItem));
-    });
+    // updatedCart.forEach((cartItem) => {
+    //   dispatch(setCartAction(cartItem));
+    // });
 
     setCart(updatedCart);
   };
@@ -54,9 +54,9 @@ const Cart = () => {
       localStorage.setItem("cart", JSON.stringify(updatedCart));
       dispatch(setDefaultCart([]));
 
-      updatedCart.forEach((cartItem) => {
-        dispatch(setCartAction(cartItem));
-      });
+      // updatedCart.forEach((cartItem) => {
+      // dispatch(setCartAction(updatedCart));
+      // });
 
       setCart(updatedCart);
     }
@@ -70,7 +70,7 @@ const Cart = () => {
 
   return (
     <div className="container mx-auto grid grid-cols-2 gap-10 mt-10">
-      {cartItem.length > 0 ? (
+      {cartItem && cartItem.length > 0 ? (
         <>
           <div className="col-span-1">
             <div className=" flex justify-between items-center pb-4">
