@@ -127,7 +127,7 @@ const TopDeals = () => {
                     </button>
                   </div>
                 </div>
-                <button
+                {/* <button
                   type="button"
                   onClick={() => addToFavourite(item)}
                   className="absolute top-0 right-2 text-2xl">
@@ -136,7 +136,7 @@ const TopDeals = () => {
                   ) : (
                     <MdOutlineFavoriteBorder />
                   )}
-                </button>
+                </button> */}
               </div>
             );
           })
