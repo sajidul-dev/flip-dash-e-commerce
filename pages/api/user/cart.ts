@@ -74,12 +74,14 @@ export default async function handler(req: Request, res: Response) {
           totalPrice += item.price;
           totalQuantity += item.quantity;
         });
-        const cartDoc = await Cart.updateOne({
-          userId,
-          productList: tempProductList,
-          totalQuantity,
-          totalPrice,
-        });
+        const cartDoc = await Cart.updateOne(
+          { userId },
+          {
+            productList: tempProductList,
+            totalQuantity,
+            totalPrice,
+          }
+        );
 
         const cart = await Cart.find({ userId: userId });
         let products: any = [];
@@ -112,19 +114,21 @@ export default async function handler(req: Request, res: Response) {
       } else {
         let totalPrice: number = userCart.totalPrice + product.price * quantity;
         let totalQuantity: number = userCart.totalQuantity + quantity;
-        const cartDoc = await Cart.updateOne({
-          userId,
-          productList: [
-            {
-              _id: productId,
-              price: product.price * quantity,
-              quantity,
-            },
-            ...userCart.productList,
-          ],
-          totalQuantity,
-          totalPrice,
-        });
+        const cartDoc = await Cart.updateOne(
+          { userId },
+          {
+            productList: [
+              {
+                _id: productId,
+                price: product.price * quantity,
+                quantity,
+              },
+              ...userCart.productList,
+            ],
+            totalQuantity,
+            totalPrice,
+          }
+        );
         const cart = await Cart.find({ userId: userId });
         let products: any = [];
         if (cart) {

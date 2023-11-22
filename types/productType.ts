@@ -13,6 +13,7 @@ export interface CartItem {
   itemQuantity?: number;
   itemTotal?: number;
   totalQuantity?: number;
+  totalPrice?: number;
   productList?: any;
   properties?: Property[];
   quantity: number;

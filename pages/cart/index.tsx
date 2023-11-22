@@ -10,12 +10,24 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { MdOutlineFavorite, MdOutlineFavoriteBorder } from "react-icons/md";
 import Loading from "@/components/shared/Loading/Loading";
+import Input from "@/components/shared/Input/Input";
+import { SubmitHandler, useForm } from "react-hook-form";
+
+type Inputs = {
+  name: string;
+  password: string;
+};
 
 const Cart = () => {
   const dispatch = useDispatch();
   const cartItem = useSelector((state: RootState) => state.cartReducer.items);
   const user = useSelector((state: RootState) => state.userReducer.user);
   const [loading, setLoading] = useState(false);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<Inputs>();
 
   const handleDelete = (id: string) => {
     if (!user) return toast.error("Please login to continue", { id: "1" });
@@ -93,6 +105,35 @@ const Cart = () => {
         toast.error(err.message);
         setLoading(false);
       });
+  };
+
+  const onSubmit: SubmitHandler<Inputs> = (data) => {
+    setLoading(true);
+    // if (data) {
+    //   axios
+    //     .post("/api/auth/login", {
+    //       email: data.email,
+    //       password: data.password,
+    //     })
+    //     .then((res) => {
+    //       if (res.data.user) {
+    //         SetCookies("user", res.data.user);
+    //         dispatch(setUser(res.data.user));
+    //         setLoading(false);
+    //         router.push("/");
+    //       } else {
+    //         console.log(res.data);
+    //         SetCookies("seller", res.data.shop);
+    //         dispatch(setSeller(res.data.shop));
+    //         setLoading(false);
+    //         router.push("/");
+    //       }
+    //     })
+    //     .catch((err) => {
+    //       setLoading(false);
+    //       toast.error(`${err.response.data.message}`);
+    //     });
+    // }
   };
 
   return (
@@ -194,11 +235,22 @@ const Cart = () => {
                 </div>
               </div>
             </div>
-            <div className="col-span-1">
+            <div className="col-span-1 bg-white p-3 ">
               <p>Order Summary</p>
-              <div>
-                <p>Subtotal</p>
+              <div className="mt-3 flex justify-between">
+                <p className="text-common-gray-text">
+                  Subtotal ({cartItem.totalQuantity} item)
+                </p>
+                <p>${cartItem.totalPrice}</p>
               </div>
+              <form onSubmit={handleSubmit(onSubmit)}>
+                <Input
+                  type="text"
+                  placeholder="Your Name"
+                  register={register("name")}
+                  error={errors.name?.message}
+                />
+              </form>
               {/* <p>{price}</p> */}
             </div>
           </>
