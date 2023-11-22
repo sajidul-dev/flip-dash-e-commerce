@@ -15,7 +15,11 @@ import { SubmitHandler, useForm } from "react-hook-form";
 
 type Inputs = {
   name: string;
-  password: string;
+  email: string;
+  city: string;
+  postalCode: string;
+  streetAddress: string;
+  phone: string;
 };
 
 const Cart = () => {
@@ -243,13 +247,58 @@ const Cart = () => {
                 </p>
                 <p>${cartItem.totalPrice}</p>
               </div>
-              <form onSubmit={handleSubmit(onSubmit)}>
+              <div className="h-[1px] bg-common-gray-text my-5"></div>
+              <form onSubmit={handleSubmit(onSubmit)} className="my-5">
                 <Input
                   type="text"
                   placeholder="Your Name"
                   register={register("name")}
+                  className="w-full mb-3"
                   error={errors.name?.message}
                 />
+                <Input
+                  type="email"
+                  placeholder="Your Email"
+                  value={user?.email}
+                  readOnly
+                  register={register("email")}
+                  className="w-full mb-3"
+                  error={errors.email?.message}
+                />
+                <div className="grid grid-cols-2 gap-4">
+                  <Input
+                    type="text"
+                    placeholder="City"
+                    register={register("city")}
+                    className="w-full mb-3 col-span-1"
+                    error={errors.city?.message}
+                  />
+                  <Input
+                    type="text"
+                    placeholder="Postal Code"
+                    register={register("postalCode")}
+                    className="w-full mb-3 col-span-1"
+                    error={errors.postalCode?.message}
+                  />
+                </div>
+                <Input
+                  type="text"
+                  placeholder="Street Address"
+                  register={register("streetAddress")}
+                  className="w-full mb-3"
+                  error={errors.streetAddress?.message}
+                />
+                <Input
+                  type="text"
+                  placeholder="Phone Number"
+                  register={register("phone")}
+                  className="w-full mb-3"
+                  error={errors.phone?.message}
+                />
+                <Input
+                  type="submit"
+                  value="Proceed To Checkout"
+                  className="w-full rounded-none bg-secondary cursor-pointer hover:bg-opacity-80"></Input>
               </form>
               {/* <p>{price}</p> */}
             </div>

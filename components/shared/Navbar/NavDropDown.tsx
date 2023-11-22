@@ -17,7 +17,7 @@ const NavDropDown = ({
 }: any) => {
   return (
     <div className={className}>
-      <div className="w-full p-5 text-[#6e686e] flex flex-col space-y-3">
+      <div className={`w-full h-0 p-5 text-[#6e686e] flex flex-col space-y-3`}>
         <Button className="flex items-center gap-4 hover:text-[#30C47E]">
           <SlEmotsmile />
           My Account
