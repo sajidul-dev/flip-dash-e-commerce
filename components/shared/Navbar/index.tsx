@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import NavLink from "./NavLink";
 import NavDropDown from "./NavDropDown";
 import Icon from "../Icon/Icon";
@@ -13,6 +13,11 @@ import { RootState } from "@/redux/store/store";
 import { RemoveCookies } from "../Cookies/Cookies";
 import { setUser } from "@/redux/slice/userSlice/userSlice";
 import { setSeller } from "@/redux/slice/sellerSlice/sellerSlice";
+import axios from "axios";
+import {
+  setCart as setCartAction,
+  setDefaultCart,
+} from "@/redux/slice/cartSlice/cartSlice";
 
 interface Props {
   openDropDown: boolean;
@@ -34,7 +39,26 @@ const Header = ({ openDropDown, setOpenDropDown }: Props) => {
     dispatch(setSeller(null));
     setOpenDropDown(false);
   };
-
+  useEffect(() => {
+    const fetchCartData = async () => {
+      try {
+        const response = await axios.get(`/api/user/cart?id=${user?._id}`);
+        const cart = response.data.cart[0];
+        console.log(cart, "Cart");
+        // if (isMounted) {
+        setTimeout(() => {
+          dispatch(setCartAction(cart));
+        }, 500);
+        // }
+      } catch (error) {
+        console.error(error);
+        dispatch(setDefaultCart([]));
+      }
+    };
+    if (user) {
+      fetchCartData();
+    }
+  }, [dispatch, user]);
   return (
     <div className="bg-white sticky z-[1100] top-0">
       <div className="container mx-auto flex justify-between items-center py-2">
@@ -93,7 +117,7 @@ const Header = ({ openDropDown, setOpenDropDown }: Props) => {
             route="/cart">
             <AiOutlineShoppingCart />
             <div className="absolute top-[0px] right-[-15px] text-base bg-[#000] text-white rounded-full w-full flex justify-center items-center">
-              <span>{cartItem?.length}</span>
+              {/* <span>{cartItem?.length}</span> */}
             </div>
           </NavLink>
           <div className="py-[14px] flex items-center space-x-2 text-2xl cursor-pointer">

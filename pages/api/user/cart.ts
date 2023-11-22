@@ -11,6 +11,27 @@ export default async function handler(req: Request, res: Response) {
   if (method === "GET") {
     if (req.query?.id) {
       const cart = await Cart.find({ userId: req.query?.id });
+      let products: any = [];
+      if (cart) {
+        await Promise.all(
+          cart[0].productList.map(async (item: any) => {
+            const product = await Product.findOne({ _id: item._id });
+            const productData = {
+              _id: item._id,
+              title: product.title,
+              description: product.description,
+              category: product.category,
+              properties: product.properties,
+              url: product.url,
+              shopId: product.shopId,
+              itemTotal: item.price,
+              itemQuantity: item.quantity,
+            };
+            products.push(productData);
+          })
+        );
+        cart[0].productList = products;
+      }
       return res.status(200).send({
         error: false,
         cart: cart,

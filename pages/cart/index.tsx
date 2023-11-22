@@ -16,11 +16,11 @@ const Cart = () => {
   const [price, setPrice] = useState(0);
   const cartItem = useSelector((state: RootState) => state.cartReducer.items);
 
-  useEffect(() => {
-    setCart(JSON.parse(localStorage.getItem("cart") || "[]"));
-  }, []);
+  // useEffect(() => {
+  //   setCart(JSON.parse(localStorage.getItem("cart") || "[]"));
+  // }, []);
 
-  const uniqueItems = Array.from(new Set(cart.map((item) => item._id)));
+  // const uniqueItems = Array.from(new Set(cart.map((item) => item._id)));
 
   const handleDelete = (id: string) => {
     // const filteredItem = cart.filter((element) => element._id !== id);
@@ -67,10 +67,10 @@ const Cart = () => {
     setCart([]);
     dispatch(setDefaultCart([]));
   };
-
+  // console.log(cartItem.productList);
   return (
     <div className="container mx-auto grid grid-cols-2 gap-10 mt-10">
-      {cartItem && cartItem.length > 0 ? (
+      {cartItem && cartItem?.productList?.length > 0 ? (
         <>
           <div className="col-span-1">
             <div className=" flex justify-between items-center pb-4">
@@ -84,21 +84,22 @@ const Cart = () => {
             <div className="">
               <div className="">
                 {cartItem &&
-                  uniqueItems.map((itemId) => {
-                    const item: CartItem | undefined = cart.find(
-                      (element) => element._id === itemId
-                    );
+                  cartItem.productList.map((item: CartItem) => {
+                    // const item: CartItem | undefined = cart.find(
+                    //   (element) => element._id === itemId
+                    // );
                     return (
                       <div
                         key={item?._id}
                         className="mb-3 p-3 relative flex gap-4 border border-[#86868b]">
-                        {item?.image && (
+                        {item?.url && (
                           <Image
+                            style={{ width: "120px", height: "80px" }}
                             width={120}
-                            unoptimized
+                            // unoptimized
                             height={80}
                             quality={100}
-                            className="rounded-md h-[80px]"
+                            className="rounded-md"
                             priority={true}
                             loader={() => item.url}
                             src={item.url}
@@ -113,17 +114,17 @@ const Cart = () => {
                               onClick={() => item && handleDecreaseItem(item)}>
                               -
                             </Button>
-                            <p>{item?.quantity}</p>
+                            <p>{item?.itemQuantity}</p>
                             <Button
                               onClick={() => item && handleIncreaseItem(item)}
                               className="cursor-pointer">
                               +
                             </Button>
                           </div>
-                          <div>{item?.totalPrice}$</div>
+                          <div>${item?.itemTotal}</div>
                         </div>
                         <Button
-                          onClick={() => handleDelete(itemId)}
+                          onClick={() => handleDelete(item._id)}
                           className="absolute right-0 top-0 px-3 py-2 bg-[#c51919] text-white">
                           X
                         </Button>

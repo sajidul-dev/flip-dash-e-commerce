@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import Footer from "../shared/Footer/Footer";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  setCart,
   setCart as setCartAction,
   setDefaultCart,
 } from "@/redux/slice/cartSlice/cartSlice";
@@ -128,31 +127,16 @@ const Layout = ({ children }: Props) => {
   // };
 
   useEffect(() => {
-    let isMounted = true;
-    const fetchCartData = async () => {
-      try {
-        const response = await axios.get(`/api/user/cart?id=${user?._id}`);
-        const cart = response.data.cart;
-        console.log(cart, "Cart");
-        if (isMounted) {
-          dispatch(setCart(cart));
-        }
-      } catch (error) {
-        console.error(error);
-        dispatch(setDefaultCart([]));
-      }
-    };
+    // let isMounted = true;
+
     axios
       .get("/api/admin/category")
       .then((res) => dispatch(setCategories(res.data.category)))
       .catch((err) => console.log(err));
-    if (user) {
-      fetchCartData();
-    }
 
-    return () => {
-      isMounted = false;
-    };
+    // return () => {
+    //   isMounted = false;
+    // };
   }, [dispatch, user]);
 
   useEffect(() => {
