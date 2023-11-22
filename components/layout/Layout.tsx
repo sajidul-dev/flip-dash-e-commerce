@@ -143,18 +143,18 @@ const Layout = ({ children }: Props) => {
     const user = GetCookies("user");
     const seller = GetCookies("seller");
     setTimeout(() => {
-      dispatch(setDefaultCart([]));
-      dispatch(setDefaultFavourite([]));
-      const cartItem = localStorage.getItem("cart");
-      const cart = JSON.parse(cartItem!);
-      const favItem = localStorage.getItem("favourite");
-      const favourite = JSON.parse(favItem!);
-      cart.map((item: any) => {
-        dispatch(setCartAction(item));
-      });
-      favourite.map((item: any) => {
-        dispatch(setFavouriteAction(item));
-      });
+      // dispatch(setDefaultCart([]));
+      // dispatch(setDefaultFavourite([]));
+      // const cartItem = localStorage.getItem("cart");
+      // const cart = JSON.parse(cartItem!);
+      // const favItem = localStorage.getItem("favourite");
+      // const favourite = JSON.parse(favItem!);
+      // cart.map((item: any) => {
+      //   dispatch(setCartAction(item));
+      // });
+      // favourite.map((item: any) => {
+      //   dispatch(setFavouriteAction(item));
+      // });
     }, 500);
     dispatch(setUser(user));
     dispatch(setSeller(seller));

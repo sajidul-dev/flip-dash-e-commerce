@@ -12,9 +12,11 @@ const Loading = ({ loading = false, backdrop = true, className = "" }) => {
         },
         className,
       ])}>
-      <div className="text-4xl animate-spin">
-        <FaSpinner />
-      </div>
+      {loading && (
+        <div className="text-4xl animate-spin">
+          <FaSpinner />
+        </div>
+      )}
     </div>
   );
 };

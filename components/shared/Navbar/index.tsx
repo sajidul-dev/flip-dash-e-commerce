@@ -14,10 +14,7 @@ import { RemoveCookies } from "../Cookies/Cookies";
 import { setUser } from "@/redux/slice/userSlice/userSlice";
 import { setSeller } from "@/redux/slice/sellerSlice/sellerSlice";
 import axios from "axios";
-import {
-  setCart as setCartAction,
-  setDefaultCart,
-} from "@/redux/slice/cartSlice/cartSlice";
+import { setCart as setCartAction } from "@/redux/slice/cartSlice/cartSlice";
 
 interface Props {
   openDropDown: boolean;
@@ -38,21 +35,19 @@ const Header = ({ openDropDown, setOpenDropDown }: Props) => {
     RemoveCookies("seller");
     dispatch(setSeller(null));
     setOpenDropDown(false);
+    dispatch(setCartAction(null));
   };
   useEffect(() => {
     const fetchCartData = async () => {
       try {
         const response = await axios.get(`/api/user/cart?id=${user?._id}`);
         const cart = response.data.cart[0];
-        console.log(cart, "Cart");
-        // if (isMounted) {
         setTimeout(() => {
           dispatch(setCartAction(cart));
         }, 500);
-        // }
       } catch (error) {
         console.error(error);
-        dispatch(setDefaultCart([]));
+        dispatch(setCartAction(null));
       }
     };
     if (user) {
@@ -117,7 +112,7 @@ const Header = ({ openDropDown, setOpenDropDown }: Props) => {
             route="/cart">
             <AiOutlineShoppingCart />
             <div className="absolute top-[0px] right-[-15px] text-base bg-[#000] text-white rounded-full w-full flex justify-center items-center">
-              {/* <span>{cartItem?.length}</span> */}
+              <span>{cartItem?.totalQuantity}</span>
             </div>
           </NavLink>
           <div className="py-[14px] flex items-center space-x-2 text-2xl cursor-pointer">

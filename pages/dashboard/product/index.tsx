@@ -79,7 +79,7 @@ const ProductDashboard = () => {
                 category: data.parentCategory,
                 properties: [
                   {
-                    propertryName: data.propertyName,
+                    propertyName: data.propertyName,
                     propertyValue: data.propertyValue,
                   },
                 ],

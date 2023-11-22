@@ -1,3 +1,7 @@
+export interface Property {
+  propertyName: string;
+  propertyValue: string;
+}
 export interface CartItem {
   _id: string;
   title: string;
@@ -8,7 +12,10 @@ export interface CartItem {
   url: string;
   itemQuantity?: number;
   itemTotal?: number;
+  totalQuantity?: number;
   productList?: any;
+  properties?: Property[];
+  quantity: number;
 }
 
 export interface Product {

@@ -21,6 +21,7 @@ const config: Config = {
       danger: "#EF4444",
       secondary: "#30c47e",
       gray: "#4B5563",
+      "common-gray-text": "#757575",
     },
   },
   plugins: [],

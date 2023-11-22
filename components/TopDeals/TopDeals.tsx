@@ -20,91 +20,8 @@ import "react-loading-skeleton/dist/skeleton.css";
 import { useDispatch, useSelector } from "react-redux";
 
 const TopDeals = () => {
-  // const [topDealsItems, setTopDealsItems] = useState([
-  //   {
-  //     _id: 1,
-  //     title: "title 1",
-  //     category: "fashion",
-  //     comment: "Flat 70% off",
-  //     image: "/images/top-deals/1.jpg",
-  //     price: 3,
-  //   },
-  //   {
-  //     _id: 2,
-  //     title: "title 2",
-  //     category: "fashion",
-  //     comment: "Flat 70% off",
-  //     image: "/images/top-deals/2.jpg",
-  //     price: 6,
-  //   },
-  //   {
-  //     _id: 3,
-  //     title: "title 3",
-  //     category: "fashion",
-  //     comment: "Flat 70% off",
-  //     image: "/images/top-deals/3.jpg",
-  //     price: 5,
-  //   },
-  //   {
-  //     _id: 4,
-  //     title: "title 4",
-  //     category: "fashion",
-  //     comment: "Flat 70% off",
-  //     image: "/images/top-deals/4.jpg",
-  //     price: 7,
-  //   },
-  //   {
-  //     _id: 5,
-  //     title: "title 5",
-  //     category: "fashion",
-  //     comment: "Flat 70% off",
-  //     image: "/images/top-deals/5.jpg",
-  //     price: 10,
-  //   },
-  //   {
-  //     _id: 6,
-  //     title: "title 6",
-  //     category: "fashion",
-  //     comment: "Flat 70% off",
-  //     image: "/images/top-deals/6.jpg",
-  //     price: 68,
-  //   },
-  //   {
-  //     _id: 7,
-  //     title: "title 7",
-  //     category: "fashion",
-  //     comment: "Flat 70% off",
-  //     image: "/images/top-deals/7.jpg",
-  //     price: 15,
-  //   },
-  //   {
-  //     _id: 8,
-  //     title: "title 8",
-  //     category: "fashion",
-  //     comment: "Flat 70% off",
-  //     image: "/images/top-deals/8.jpg",
-  //     price: 10,
-  //   },
-  //   {
-  //     _id: 9,
-  //     title: "title 9",
-  //     category: "fashion",
-  //     comment: "Flat 70% off",
-  //     image: "/images/top-deals/9.jpg",
-  //     price: 20,
-  //   },
-  //   {
-  //     _id: 10,
-  //     title: "title 10",
-  //     category: "fashion",
-  //     comment: "Flat 70% off",
-  //     image: "/images/top-deals/10.jpg",
-  //     price: 15,
-  //   },
-  // ]);
   const dispatch = useDispatch();
   const router = useRouter();
-  const [cart, setCart] = useState<Product[]>([]);
   const [favourite, setFavourite] = useState<Product[]>([]);
   const [topDeals, setTopDeals] = useState<any>([]);
   const favouriteItem = useSelector(
@@ -116,10 +33,10 @@ const TopDeals = () => {
   const user = useSelector((state: RootState) => state.userReducer.user);
   const allCart = useSelector((state: RootState) => state.cartReducer.items);
 
-  useEffect(() => {
-    setCart(JSON.parse(localStorage.getItem("cart") || "[]"));
-    setFavourite(JSON.parse(localStorage.getItem("favourite") || "[]"));
-  }, []);
+  // useEffect(() => {
+  //   setCart(JSON.parse(localStorage.getItem("cart") || "[]"));
+  //   setFavourite(JSON.parse(localStorage.getItem("favourite") || "[]"));
+  // }, []);
 
   useEffect(() => {
     axios
@@ -128,25 +45,6 @@ const TopDeals = () => {
       .catch((err) => console.log(err));
   }, []);
 
-  useEffect(() => {
-    setTimeout(() => {
-      dispatch(setDefaultCart([]));
-      dispatch(setDefaultFavourite([]));
-      localStorage.setItem("cart", JSON.stringify(cart));
-      localStorage.setItem("favourite", JSON.stringify(favourite));
-      // cart?.map((item) => {
-      //   dispatch(setCartAction(item));
-      // });
-      // favourite.map((item) => {
-      //   dispatch(setFavouriteAction(item));
-      // });
-    }, 500);
-  }, [cart, favourite, dispatch]);
-
-  const addToCart = (item: Product) => {
-    if (!user) return toast.error("Please login to continue", { id: "1" });
-    setCart((prev: any) => [...prev, item]);
-  };
   const addToFavourite = (item: Product) => {
     if (!user) return toast.error("Please login to continue", { id: "1" });
     const foundItem = favouriteItem.find((element) => element._id === item._id);
@@ -161,28 +59,7 @@ const TopDeals = () => {
   };
 
   const handleAddToCart = (item: Product) => {
-    // console.log(item, "item");
     if (!user) return toast.error("Please login to continue", { id: "1" });
-    // const foundItem = allCart.find((element) => element._id === item._id);
-    // const restItem = allCart.filter((element) => element._id !== item._id);
-    // if (foundItem) {
-    //   const modifiedItem = {
-    //     ...foundItem,
-    //     quantity: foundItem.quantity && foundItem?.quantity + 1,
-    //     totalPrice:
-    //       foundItem.totalPrice && foundItem.totalPrice + foundItem.price,
-    //   };
-    //   setCart([...restItem, modifiedItem]);
-    //   toast.success("Item added to cart", { id: "1" });
-    // } else {
-    //   const cartItem = {
-    //     ...item,
-    //     quantity: 1,
-    //     totalPrice: Number(item.price),
-    //   };
-    //   setCart((prev) => [...prev, cartItem]);
-    //   toast.success("Item added to cart", { id: "1" });
-    // }
     axios
       .put("/api/user/cart", {
         userId: user._id,
@@ -191,12 +68,11 @@ const TopDeals = () => {
       })
       .then((res) => {
         toast.success(res.data.message, { id: "1" });
+        dispatch(setCartAction(res.data.cart[0]));
       })
       .catch((err) => {
         console.log(err);
       });
-    // dispatch(setCartAction(cartItem));
-    // axios.put("/api/user/cart")
   };
 
   const handleNavigate = (id: string, category: string) => {
