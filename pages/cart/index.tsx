@@ -146,7 +146,7 @@ const Cart = () => {
       <div className="container mx-auto grid grid-cols-2 gap-10 mt-10">
         {cartItem && cartItem?.productList?.length > 0 ? (
           <>
-            <div className="col-span-1">
+            <div className="col-span-2 md:col-span-1">
               <div className="bg-white flex justify-between items-center px-3 py-2 mb-4">
                 <p className="text-common-gray-text">Your cart item </p>
                 <Button
@@ -239,7 +239,7 @@ const Cart = () => {
                 </div>
               </div>
             </div>
-            <div className="col-span-1 bg-white p-3 ">
+            <div className="col-span-2 md:col-span-1 bg-white p-3 ">
               <p>Order Summary</p>
               <div className="mt-3 flex justify-between">
                 <p className="text-common-gray-text">
@@ -252,7 +252,12 @@ const Cart = () => {
                 <Input
                   type="text"
                   placeholder="Your Name"
-                  register={register("name")}
+                  register={register("name", {
+                    required: {
+                      value: true,
+                      message: "Name is required",
+                    },
+                  })}
                   className="w-full mb-3"
                   error={errors.name?.message}
                 />
@@ -269,14 +274,21 @@ const Cart = () => {
                   <Input
                     type="text"
                     placeholder="City"
-                    register={register("city")}
+                    register={register("city", {
+                      required: { value: true, message: "City is required" },
+                    })}
                     className="w-full mb-3 col-span-1"
                     error={errors.city?.message}
                   />
                   <Input
                     type="text"
                     placeholder="Postal Code"
-                    register={register("postalCode")}
+                    register={register("postalCode", {
+                      required: {
+                        value: true,
+                        message: "Postal Code is required",
+                      },
+                    })}
                     className="w-full mb-3 col-span-1"
                     error={errors.postalCode?.message}
                   />
@@ -284,14 +296,24 @@ const Cart = () => {
                 <Input
                   type="text"
                   placeholder="Street Address"
-                  register={register("streetAddress")}
+                  register={register("streetAddress", {
+                    required: {
+                      value: true,
+                      message: "Street address is required",
+                    },
+                  })}
                   className="w-full mb-3"
                   error={errors.streetAddress?.message}
                 />
                 <Input
                   type="text"
                   placeholder="Phone Number"
-                  register={register("phone")}
+                  register={register("phone", {
+                    required: {
+                      value: true,
+                      message: "Phone number is required",
+                    },
+                  })}
                   className="w-full mb-3"
                   error={errors.phone?.message}
                 />

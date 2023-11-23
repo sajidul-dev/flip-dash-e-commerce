@@ -22,6 +22,7 @@ const config: Config = {
       secondary: "#30c47e",
       gray: "#4B5563",
       "common-gray-text": "#757575",
+      "common-border": "#eff0f5",
     },
   },
   plugins: [],

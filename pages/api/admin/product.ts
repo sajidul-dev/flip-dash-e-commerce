@@ -1,5 +1,6 @@
 import { dbConnect } from "@/lib/mongoose";
 import { Product } from "@/models/product";
+import { Seller } from "@/models/seller";
 import { Request, Response } from "express";
 
 export default async function handler(req: Request, res: Response) {
@@ -9,7 +10,39 @@ export default async function handler(req: Request, res: Response) {
 
   if (method === "GET") {
     if (req.query?.id) {
-      res.json(await Product.findOne({ _id: req.query?.id }));
+      const product = await Product.findOne({ _id: req.query?.id });
+      const shop = await Seller.findOne({ _id: product.shopId });
+      console.log(product);
+      const {
+        _id,
+        title,
+        description,
+        price,
+        category,
+        properties,
+        url,
+        shopId,
+        quantity,
+      } = product;
+      return res.status(200).send({
+        error: false,
+        product: {
+          _id,
+          title,
+          description,
+          price,
+          category,
+          properties,
+          url,
+          shopId,
+          quantity,
+          shopName: shop.name,
+          shopProfilePic: shop.profilePhoto,
+          shopAddress: shop.shopLocation,
+        },
+        message: "Product send",
+      });
+      // res.json(await Product.findOne({ _id: req.query?.id }));
     } else {
       const products = await Product.find();
       return res.status(200).send({
