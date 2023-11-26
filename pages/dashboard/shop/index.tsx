@@ -1,6 +1,7 @@
 import DashboardLayout from "@/components/layout/DashboardLayout";
 import Button from "@/components/shared/Button/Button";
 import Loading from "@/components/shared/Loading/Loading";
+import { setSeller } from "@/redux/slice/sellerSlice/sellerSlice";
 import { RootState } from "@/redux/store/store";
 import { Product } from "@/types/productType";
 import axios from "axios";
@@ -9,11 +10,12 @@ import React, { ChangeEvent, useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { AiOutlineCamera } from "react-icons/ai";
 import { BsCameraFill } from "react-icons/bs";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const imgbbAPI = "08b06c8e39357d81837495ad55693154";
 
 const Shop = () => {
+  const dispatch = useDispatch();
   const coverInputRef = useRef<HTMLInputElement | null>(null);
   const profileInputRef = useRef<HTMLInputElement | null>(null);
   const [loading, setLoading] = useState(false);
@@ -80,14 +82,12 @@ const Shop = () => {
               .then((res) => {
                 if (res.data) {
                   toast.success(`${res.data.message}`, { id: "33" });
+                  dispatch(setSeller(res.data.seller));
                   setLoading(false);
-                  //   refreshData();
-                  //   reset();
                 }
               })
               .catch((err) => {
                 setLoading(false);
-                // reset();
                 toast.error(`${err.response.data.message}`);
               });
           }
@@ -202,7 +202,9 @@ const Shop = () => {
           <table className="mt-8 w-full">
             <thead className="pb-5">
               <tr className="capitalize">
-                <th className="text-left flex gap-x-2">Product image</th>
+                <th className="text-left flex gap-x-2 whitespace-nowrap">
+                  Image
+                </th>
                 <th className="text-left">Product Title</th>
                 <th className="text-left">Price</th>
               </tr>

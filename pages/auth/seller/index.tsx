@@ -49,7 +49,6 @@ const Seller = () => {
       })
       .then((res) => {
         if (res.data.shop) {
-          console.log(res.data.shop);
           SetCookies("seller", res.data.shop);
           dispatch(setSeller(res.data.shop));
           setLoading(false);

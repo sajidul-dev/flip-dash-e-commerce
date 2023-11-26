@@ -14,9 +14,10 @@ export default async function handler(req: Request, res: Response) {
           profilePhoto,
         }
       );
+      const updatedSeller = await Seller.findOne({ _id });
       return res.status(200).send({
         error: false,
-        seller: seller,
+        seller: updatedSeller,
         message: "Profile updated successfully",
       });
     } else {
