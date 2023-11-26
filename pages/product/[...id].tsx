@@ -10,6 +10,8 @@ import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { CiClock2 } from "react-icons/ci";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 import { useDispatch, useSelector } from "react-redux";
 
 const ProductDetails = () => {
@@ -62,20 +64,24 @@ const ProductDetails = () => {
           <div className="p-5 flex flex-wrap ">
             <div className="grid grid-cols-12 gap-6">
               <div className="col-span-12 md:col-span-3">
-                <Image
-                  width={330}
-                  unoptimized
-                  height={330}
-                  // quality={100}
-                  className="rounded-md"
-                  priority={true}
-                  loader={() => product.url}
-                  src={product.url}
-                  alt=""
-                />
+                {product.url ? (
+                  <Image
+                    width={330}
+                    unoptimized
+                    height={330}
+                    // quality={100}
+                    className="rounded-md"
+                    priority={true}
+                    loader={() => product.url}
+                    src={product.url}
+                    alt=""
+                  />
+                ) : (
+                  <Skeleton height={330} width={330} />
+                )}
               </div>
               <div className="col-span-12 md:col-span-6">
-                <p className="my-3">{product.title}</p>
+                <p className="my-3 text-xl">{product.title || <Skeleton />}</p>
                 <p>
                   Price: <span className="font-semibold">{product.price}$</span>
                 </p>

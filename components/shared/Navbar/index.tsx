@@ -104,7 +104,7 @@ const Header = ({ openDropDown, setOpenDropDown }: Props) => {
                   e.stopPropagation();
                   setOpenDropDown(!openDropDown);
                 }}
-                className="py-[14px] cursor-pointer flex items-center gap-3">
+                className="py-[14px] cursor-pointer flex items-center gap-3 whitespace-nowrap">
                 {shop ? shop.name : user?.name}
                 {openDropDown ? <IoIosArrowDown /> : <IoIosArrowUp />}
               </div>

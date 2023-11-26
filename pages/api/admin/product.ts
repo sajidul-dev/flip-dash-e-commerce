@@ -12,7 +12,6 @@ export default async function handler(req: Request, res: Response) {
     if (req.query?.id) {
       const product = await Product.findOne({ _id: req.query?.id });
       const shop = await Seller.findOne({ _id: product.shopId });
-      console.log(product);
       const {
         _id,
         title,

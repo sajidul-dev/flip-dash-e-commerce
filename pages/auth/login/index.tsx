@@ -40,8 +40,7 @@ const Login = () => {
             dispatch(setUser(res.data.user));
             setLoading(false);
             router.push("/");
-          } else {
-            console.log(res.data);
+          } else if (res.data.shop) {
             SetCookies("seller", res.data.shop);
             dispatch(setSeller(res.data.shop));
             setLoading(false);

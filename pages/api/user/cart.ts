@@ -1,6 +1,8 @@
 import { dbConnect } from "@/lib/mongoose";
 import { Cart } from "@/models/cart";
 import { Product } from "@/models/product";
+import { User } from "@/models/user";
+import { isAdminRequest } from "@/utils/AdminRequest";
 import { Request, Response } from "express";
 
 export default async function handler(req: Request, res: Response) {
@@ -48,6 +50,8 @@ export default async function handler(req: Request, res: Response) {
   }
   if (method == "PUT") {
     const { userId, productId, quantity } = req.body;
+    // const user = await User.findOne({ _id: userId });
+    // isAdminRequest(user.email, res);
     const userCart = await Cart.findOne({ userId });
     if (userCart) {
       const product = await Product.findById({ _id: productId });
