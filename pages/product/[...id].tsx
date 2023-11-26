@@ -56,6 +56,7 @@ const ProductDetails = () => {
         setLoading(false);
       });
   };
+  console.log(product, "Product");
   return (
     <>
       <Loading loading={loading} />
@@ -90,7 +91,7 @@ const ProductDetails = () => {
                   {product.description}
                 </p>
                 <div>
-                  <p>Shop: {}</p>
+                  <p>Shop: {product.shopName}</p>
                 </div>
                 <div className="flex justify-start items-center gap-4">
                   <Button className="bg-gray text-white px-3 py-2 rounded hover:bg-opacity-80 my-3">
@@ -127,7 +128,12 @@ const ProductDetails = () => {
         ) || "No Product Found"}
       </div>
       <div>
-        <Reviews />
+        <Reviews
+          userId={user?._id}
+          productId={productId && productId[1]}
+          shopId={product.shopId}
+          product={product}
+        />
       </div>
     </>
   );

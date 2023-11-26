@@ -7,7 +7,6 @@ const reviewSchema = new Schema({
   },
   productId: { type: mongoose.Schema.Types.ObjectId, required: true },
   shopId: { type: mongoose.Schema.Types.ObjectId, required: true },
-  quantity: { type: Number },
   rating: {
     type: Number,
     required: true,

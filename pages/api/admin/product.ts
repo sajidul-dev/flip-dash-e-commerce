@@ -1,5 +1,6 @@
 import { dbConnect } from "@/lib/mongoose";
 import { Product } from "@/models/product";
+import { Review } from "@/models/reviews";
 import { Seller } from "@/models/seller";
 import { Request, Response } from "express";
 
@@ -23,6 +24,7 @@ export default async function handler(req: Request, res: Response) {
         shopId,
         quantity,
       } = product;
+      const reviews = await Review.find({ productId: req.query?.id });
       return res.status(200).send({
         error: false,
         product: {
@@ -35,9 +37,10 @@ export default async function handler(req: Request, res: Response) {
           url,
           shopId,
           quantity,
-          shopName: shop.name,
+          shopName: shop.shopName,
           shopProfilePic: shop.profilePhoto,
           shopAddress: shop.shopLocation,
+          reviews: reviews,
         },
         message: "Product send",
       });
