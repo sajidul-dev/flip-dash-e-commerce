@@ -43,6 +43,7 @@ const Banner = () => {
         draggable
         showDots
         autoPlay
+        infinite
         autoPlaySpeed={5000}
         responsive={responsive}>
         {bannerItems.map((bannerItem) => {

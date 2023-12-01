@@ -76,8 +76,6 @@ const TopDeals = () => {
   };
 
   const handleNavigate = (id: string, category: string) => {
-    console.log(id);
-    console.log(category, "cat");
     router.push(`/product/${category}/${id}`);
   };
   return (
