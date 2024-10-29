@@ -22,16 +22,17 @@ const DashboardLayout = ({ children }: Props) => {
       <div className="col-span-3 flex flex-col border-r-2 border-common">
         <NavLink
           route="/dashboard/category"
-          className="m-3 p-3 hover:bg-common">
+          className="m-3 p-3 hover:bg-common"
+        >
           Category
         </NavLink>
         <div className="w-full h-[1px] bg-black"></div>
         <NavLink route="/dashboard/product" className="m-3 p-3 hover:bg-common">
-          Product
+          Create Product
         </NavLink>
         <div className="w-full h-[1px] bg-black"></div>
         <NavLink route="/dashboard/shop" className="m-3 p-3 hover:bg-common">
-          Shop
+          My Shop
         </NavLink>
         <div className="w-full h-[1px] bg-black"></div>
         <NavLink route="/dashboard/admin" className="m-3 p-3 hover:bg-common">
