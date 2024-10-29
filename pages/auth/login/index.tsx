@@ -83,6 +83,7 @@ const Login = () => {
             className="my-4 w-full"
           />
           <Input
+            disabled={loading}
             type="submit"
             value="Log in"
             className="cursor-pointer w-full bg-secondary hover:bg-opacity-70 text-white"
