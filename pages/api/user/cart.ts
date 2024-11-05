@@ -14,7 +14,7 @@ export default async function handler(req: Request, res: Response) {
     if (req.query?.id) {
       const cart = await Cart.find({ userId: req.query?.id });
       let products: any = [];
-      if (cart) {
+      if (cart.length > 0) {
         await Promise.all(
           cart[0].productList.map(async (item: any) => {
             const product = await Product.findOne({ _id: item._id });
@@ -38,10 +38,10 @@ export default async function handler(req: Request, res: Response) {
       return res.status(200).send({
         error: false,
         cart: cart,
-        message: "Product send",
+        message: "Cart Found",
       });
     } else {
-      return res.status(400).send({
+      return res.status(200).send({
         error: false,
         cart: null,
         message: "Cart not found",

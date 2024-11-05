@@ -139,7 +139,8 @@ const Shop = () => {
           />
           <Button
             onClick={() => handleButtonClick(true)}
-            className="absolute right-4 bottom-4 px-3 py-2 rounded bg-black bg-opacity-20 flex items-center gap-2 text-white font-medium">
+            className="absolute right-4 bottom-4 px-3 py-2 rounded bg-black bg-opacity-20 flex items-center gap-2 text-white font-medium"
+          >
             <AiOutlineCamera />
             Upload cover photo
           </Button>
@@ -153,11 +154,11 @@ const Shop = () => {
                     borderRadius: "100%",
                   }}
                   width={1100}
+                  loading="lazy"
                   // unoptimized
                   height={200}
                   quality={100}
                   className="rounded-md"
-                  priority={true}
                   loader={() => shop.profilePhoto}
                   src={shop.profilePhoto}
                   alt=""
@@ -170,11 +171,11 @@ const Shop = () => {
                     borderRadius: "100%",
                   }}
                   width={1100}
+                  loading="lazy"
                   // unoptimized
                   height={200}
                   quality={100}
                   className="rounded-md"
-                  priority={true}
                   loader={() => "https://i.ibb.co/j3r2kHW/cover.webp"}
                   src="https://i.ibb.co/j3r2kHW/cover.webp"
                   alt=""
@@ -188,7 +189,8 @@ const Shop = () => {
               />
               <p
                 onClick={() => handleButtonClick(false)}
-                className="absolute -right-2 bottom-3 text-xl w-8 h-8 bg-[#D8DADF]  flex justify-center items-center rounded-full cursor-pointer">
+                className="absolute -right-2 bottom-3 text-xl w-8 h-8 bg-[#D8DADF]  flex justify-center items-center rounded-full cursor-pointer"
+              >
                 <BsCameraFill />
               </p>
             </div>
@@ -215,7 +217,8 @@ const Shop = () => {
                     return (
                       <tr
                         key={item._id}
-                        className="bg-[#FFFFFF] hover:bg-gray hover:shadow-md rounded-md">
+                        className="bg-[#FFFFFF] hover:bg-gray hover:shadow-md rounded-md"
+                      >
                         <td>
                           <Image
                             style={{

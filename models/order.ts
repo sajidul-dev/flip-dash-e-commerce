@@ -1,18 +1,35 @@
+import { stat } from "fs";
 import mongoose, { Schema, models } from "mongoose";
 
 const orderSchema = new Schema({
-  name: {
+  userId: {
     type: String,
     required: true,
   },
-  email: {
-    type: String,
-    required: true,
+  productLists: [
+    {
+      type: Object,
+    },
+  ],
+  totalQuantity: {
+    type: Number,
+    // required: true,
   },
-  password: {
+  totalPrice: {
+    type: Number,
+    // requried: true,
+  },
+  status: {
     type: String,
-    required: true,
+    default: "pending",
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+  transactionId: {
+    type: String,
   },
 });
 
-export const User = models?.User || mongoose.model("User", orderSchema);
+export const Order = models?.Order || mongoose.model("Order", orderSchema);

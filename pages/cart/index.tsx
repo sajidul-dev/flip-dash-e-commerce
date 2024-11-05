@@ -30,6 +30,7 @@ const Cart = () => {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<Inputs>();
 
@@ -111,33 +112,40 @@ const Cart = () => {
       });
   };
 
+  const fetchCartData = async () => {
+    try {
+      const response = await axios.get(`/api/user/cart?id=${user?._id}`);
+      const cart = response.data.cart[0];
+      setTimeout(() => {
+        dispatch(setCartAction(cart));
+      }, 500);
+    } catch (error) {
+      console.error(error);
+      dispatch(setCartAction(null));
+    }
+  };
+
   const onSubmit: SubmitHandler<Inputs> = (data) => {
     setLoading(true);
-    // if (data) {
-    //   axios
-    //     .post("/api/auth/login", {
-    //       email: data.email,
-    //       password: data.password,
-    //     })
-    //     .then((res) => {
-    //       if (res.data.user) {
-    //         SetCookies("user", res.data.user);
-    //         dispatch(setUser(res.data.user));
-    //         setLoading(false);
-    //         router.push("/");
-    //       } else {
-    //         console.log(res.data);
-    //         SetCookies("seller", res.data.shop);
-    //         dispatch(setSeller(res.data.shop));
-    //         setLoading(false);
-    //         router.push("/");
-    //       }
-    //     })
-    //     .catch((err) => {
-    //       setLoading(false);
-    //       toast.error(`${err.response.data.message}`);
-    //     });
-    // }
+    if (data && cartItem) {
+      axios
+        .post("/api/user/purchaseProduct", {
+          userId: cartItem.userId,
+          cartId: cartItem._id,
+        })
+        .then((res) => {
+          if (res.data) {
+            setLoading(false);
+            toast.success("Order placed successfully", { id: "1" });
+            reset();
+            fetchCartData();
+          }
+        })
+        .catch((err) => {
+          setLoading(false);
+          toast.error(`${err.response.data.message}`);
+        });
+    }
   };
 
   return (
@@ -151,7 +159,8 @@ const Cart = () => {
                 <p className="text-common-gray-text">Your cart item </p>
                 <Button
                   onClick={handleClearAll}
-                  className="text-common-gray-text hover:text-danger flex gap-3 items-center">
+                  className="text-common-gray-text hover:text-danger flex gap-3 items-center"
+                >
                   <RiDeleteBin6Line /> Clear All
                 </Button>
               </div>
@@ -162,7 +171,8 @@ const Cart = () => {
                       return (
                         <div
                           key={item?._id}
-                          className="mb-3 p-3 relative flex justify-between gap-4 bg-white">
+                          className="mb-3 p-3 relative flex justify-between gap-4 bg-white"
+                        >
                           <div className="flex space-x-4">
                             {item?.url && (
                               <Image
@@ -172,7 +182,7 @@ const Cart = () => {
                                 height={80}
                                 quality={100}
                                 className="rounded-md"
-                                priority={true}
+                                loading="lazy"
                                 loader={() => item.url}
                                 src={item.url}
                                 alt=""
@@ -198,13 +208,15 @@ const Cart = () => {
                             <div className="flex gap-4 my-2">
                               <Button
                                 onClick={() => item && handleDecreaseItem(item)}
-                                className="cursor-pointer px-2 bg-[#9e9e9e] text-base">
+                                className="cursor-pointer px-2 bg-[#9e9e9e] text-base"
+                              >
                                 -
                               </Button>
                               <p>{item?.itemQuantity}</p>
                               <Button
                                 onClick={() => item && handleIncreaseItem(item)}
-                                className="cursor-pointer px-2 bg-[#9e9e9e] text-base">
+                                className="cursor-pointer px-2 bg-[#9e9e9e] text-base"
+                              >
                                 +
                               </Button>
                             </div>
@@ -213,7 +225,8 @@ const Cart = () => {
                               <button
                                 type="button"
                                 // onClick={() => addToFavourite(item)}
-                                className="text-2xl text-common-gray-text hover:text-secondary">
+                                className="text-2xl text-common-gray-text hover:text-secondary"
+                              >
                                 {/* {favouriteItem.find((element) => element._id === item._id) ? (
                   // ) : ( */}
                                 {/* <MdOutlineFavorite /> */}
@@ -223,7 +236,8 @@ const Cart = () => {
                               <button
                                 type="button"
                                 onClick={() => handleDelete(item._id)}
-                                className="text-2xl text-common-gray-text hover:text-danger">
+                                className="text-2xl text-common-gray-text hover:text-danger"
+                              >
                                 <RiDeleteBin6Line />
                               </button>
                             </div>
@@ -251,6 +265,8 @@ const Cart = () => {
               <form onSubmit={handleSubmit(onSubmit)} className="my-5">
                 <Input
                   type="text"
+                  value={user?.name}
+                  readOnly
                   placeholder="Your Name"
                   register={register("name", {
                     required: {
@@ -320,7 +336,8 @@ const Cart = () => {
                 <Input
                   type="submit"
                   value="Proceed To Checkout"
-                  className="w-full rounded-none bg-secondary cursor-pointer hover:bg-opacity-80"></Input>
+                  className="w-full rounded-none bg-secondary cursor-pointer hover:bg-opacity-80"
+                ></Input>
               </form>
               {/* <p>{price}</p> */}
             </div>

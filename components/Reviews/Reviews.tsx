@@ -18,7 +18,6 @@ interface Props {
 
 const Reviews = ({ userId, productId, shopId, product }: Props) => {
   const [loading, setLoading] = React.useState(false);
-  console.log(userId);
   const {
     register,
     handleSubmit,
@@ -38,7 +37,6 @@ const Reviews = ({ userId, productId, shopId, product }: Props) => {
         })
         .then((res) => {
           if (res.data.review) {
-            console.log(res.data, "Rev");
             toast.success(`${res.data.message}`);
             product.reviews.push(res.data.review);
             setLoading(false);
