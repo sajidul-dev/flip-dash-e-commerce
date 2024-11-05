@@ -20,6 +20,10 @@ const cartSchema = new Schema({
     type: Number,
     // requried: true,
   },
+  purchased: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 export const Cart = models?.Cart || mongoose.model("Cart", cartSchema);

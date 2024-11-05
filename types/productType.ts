@@ -4,6 +4,7 @@ export interface Property {
 }
 export interface CartItem {
   _id: string;
+  userId: string;
   title: string;
   category: string;
   comment: string;
