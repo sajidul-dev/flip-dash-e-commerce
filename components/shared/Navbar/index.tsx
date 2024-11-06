@@ -77,7 +77,8 @@ const Header = ({ openDropDown, setOpenDropDown }: Props) => {
           <div className="hidden md:flex gap-4 lg:gap-8">
             <NavLink
               className="px-[10px] flex items-center space-x-2 hover:bg-common hover:rounded-lg"
-              route={shop ? "/dashboard/shop" : "/auth/seller"}>
+              route={shop ? "/dashboard/shop" : "/auth/seller"}
+            >
               <BsInboxes />
               <p className="whitespace-nowrap">
                 {shop ? shop.shopName : "Become a Seller"}
@@ -87,13 +88,15 @@ const Header = ({ openDropDown, setOpenDropDown }: Props) => {
               <>
                 <NavLink
                   className="px-[10px] flex items-center space-x-2 hover:bg-common hover:rounded-lg"
-                  route="/auth/login">
+                  route="/auth/login"
+                >
                   <BiUser />
                   <p className="whitespace-nowrap">Sign in</p>
                 </NavLink>
                 <NavLink
                   className="px-[10px] flex items-center space-x-2 hover:bg-common hover:rounded-lg"
-                  route="/auth/register">
+                  route="/auth/register"
+                >
                   <BiUser />
                   <p className="whitespace-nowrap">Sign up</p>
                 </NavLink>
@@ -104,14 +107,15 @@ const Header = ({ openDropDown, setOpenDropDown }: Props) => {
                   e.stopPropagation();
                   setOpenDropDown(!openDropDown);
                 }}
-                className="py-[14px] cursor-pointer flex items-center gap-3 whitespace-nowrap">
+                className="py-[14px] cursor-pointer flex items-center gap-3 whitespace-nowrap"
+              >
                 {shop ? shop.name : user?.name}
                 {openDropDown ? <IoIosArrowDown /> : <IoIosArrowUp />}
               </div>
             )}
             <NavDropDown
               className={`absolute top-10 right-8 bg-white shadow-2xl mt-[30px] z-50 text-white w-[400px] transition-all ease-in-out duration-500 ${
-                openDropDown ? "h-[200px] opacity-100" : "h-0 opacity-0"
+                openDropDown ? "h-[200px] opacity-100" : "h-0 opacity-0 hidden"
               }`}
               openDropDown
               setOpenDropDown
@@ -119,7 +123,8 @@ const Header = ({ openDropDown, setOpenDropDown }: Props) => {
             />
             <NavLink
               className="py-[14px] relative flex items-center text-2xl cursor-pointer"
-              route="/cart">
+              route="/cart"
+            >
               <AiOutlineShoppingCart />
               <div className="absolute top-[0px] right-[-15px] text-base bg-[#000] text-white rounded-full w-full flex justify-center items-center">
                 <span>{cartItem?.totalQuantity}</span>
@@ -132,7 +137,8 @@ const Header = ({ openDropDown, setOpenDropDown }: Props) => {
           </div>
           <div
             onClick={() => setOpenSidebar(!openSidebar)}
-            className="block md:hidden text-2xl">
+            className="block md:hidden text-2xl"
+          >
             {openSidebar ? <RxCross2 /> : <CiMenuFries />}
           </div>
         </div>
