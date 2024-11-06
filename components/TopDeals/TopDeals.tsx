@@ -87,17 +87,19 @@ const TopDeals = () => {
             return (
               <div
                 key={item._id}
-                className="relative p-4 border-[0.5px] border-[#e0e0e0] w-[250px] flex flex-col justify-between hover:shadow-[20px_20px_20px_20px_#00000014] transition-all duration-300">
+                className="relative p-4 border-[0.5px] border-[#e0e0e0] w-[250px] flex flex-col justify-between hover:shadow-[20px_20px_20px_20px_#00000014] transition-all duration-300"
+              >
                 <div
                   onClick={() => handleNavigate(item._id, item.category)}
-                  className="cursor-pointer">
+                  className="cursor-pointer"
+                >
                   <Image
                     width={220}
                     unoptimized
                     height={200}
                     // quality={100}
                     className="rounded-md"
-                    priority={true}
+                    loading="lazy"
                     loader={() => item.url}
                     src={item.url}
                     alt=""
@@ -120,8 +122,12 @@ const TopDeals = () => {
                     </p>
                     <button
                       onClick={() => handleAddToCart(item)}
-                      className="text-2xl">
-                      <AiOutlineShoppingCart />
+                      className="text-2xl"
+                    >
+                      <p className="bg-common-gray-text rounded-full p-2 tooltip">
+                        <span className="tooltiptext">Add to cart</span>
+                        <AiOutlineShoppingCart />
+                      </p>
                     </button>
                   </div>
                 </div>

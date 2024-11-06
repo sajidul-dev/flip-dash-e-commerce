@@ -64,7 +64,7 @@ const Seller = () => {
   return (
     <div className="container mx-auto flex flex-col justify-center mt-4 ">
       <div className="w-1/2 mx-auto my-10 bg-white p-10">
-        <p className="text-lg text-center my-5 animate-ping">Become a Seller</p>
+        <p className="text-lg text-center my-5">Become a Seller</p>
         <form onSubmit={handleSubmit(onSubmit)}>
           {step == 1 && (
             <>
@@ -147,7 +147,8 @@ const Seller = () => {
                     message: "Category is required",
                   },
                 })}
-                className="block px-4 py-2 border border-[#86868b] rounded-md focus:outline-none focus:ring focus:border-[#0071e3] placeholder-gray-400 my-4 w-full">
+                className="block px-4 py-2 border border-[#86868b] rounded-md focus:outline-none focus:ring focus:border-[#0071e3] placeholder-gray-400 my-4 w-full"
+              >
                 <option value="">No parent category</option>
                 {allCategories.map((category) => {
                   return (
@@ -167,7 +168,8 @@ const Seller = () => {
               <Button
                 type="button"
                 onClick={() => setStep(1)}
-                className="px-4 py-2 bg-white my-3 rounded border">
+                className="px-4 py-2 bg-white my-3 rounded border"
+              >
                 Previous
               </Button>
               <Input
@@ -200,7 +202,8 @@ const Seller = () => {
                   setStep(2);
                 }
               }}
-              className="px-4 py-2 bg-secondary my-3 rounded">
+              className="px-4 py-2 bg-secondary my-3 rounded"
+            >
               Next
             </Button>
           )}
