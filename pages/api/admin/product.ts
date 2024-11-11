@@ -24,7 +24,9 @@ export default async function handler(req: Request, res: Response) {
         shopId,
         quantity,
       } = product;
-      const reviews = await Review.find({ productId: req.query?.id });
+      const reviews = await Review.find({ productId: req.query?.id }).sort({
+        createdAt: -1,
+      });
       return res.status(200).send({
         error: false,
         product: {
