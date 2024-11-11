@@ -1,4 +1,4 @@
-import { CartItem, Product } from "@/types/productType";
+import { Product } from "@/types/productType";
 import axios from "axios";
 import { useState } from "react";
 import toast from "react-hot-toast";
