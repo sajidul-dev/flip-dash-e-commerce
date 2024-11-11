@@ -23,7 +23,7 @@ const TopDeals = () => {
   const dispatch = useDispatch();
   const router = useRouter();
   const [favourite, setFavourite] = useState<Product[]>([]);
-  const [topDeals, setTopDeals] = useState<any>([]);
+  const [topDeals, setTopDeals] = useState<Product[]>([]);
   const favouriteItem = useSelector(
     (state: RootState) => state.favouriteReducer.items
   );
@@ -37,10 +37,9 @@ const TopDeals = () => {
   //   setCart(JSON.parse(localStorage.getItem("cart") || "[]"));
   //   setFavourite(JSON.parse(localStorage.getItem("favourite") || "[]"));
   // }, []);
-
   useEffect(() => {
     axios
-      .get("api/admin/product")
+      .get("/api/admin/product")
       .then((res) => setTopDeals(res.data.products))
       .catch((err) => console.log(err));
   }, []);

@@ -4,6 +4,7 @@ import Banner from "@/components/Banner/Banner";
 import TopDeals from "@/components/TopDeals/TopDeals";
 import Categories from "@/components/Cetegories/Categories";
 import ProductBuyingGuide from "@/components/Banner/ProductBuyingGuide";
+import CustomerReview from "@/components/CustomerReview/CustomerReview";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -17,6 +18,7 @@ export default function Home() {
         <Categories />
       </div>
       <TopDeals />
+      <CustomerReview />
     </main>
   );
 }
