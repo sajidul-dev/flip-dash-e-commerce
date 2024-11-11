@@ -21,5 +21,5 @@ export function useGetProduct(productId: string) {
     }
   }, [productId]);
 
-  return { product, loading };
+  return { product, setProduct, loading };
 }

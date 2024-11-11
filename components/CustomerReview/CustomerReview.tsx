@@ -9,10 +9,9 @@ const CustomerReview = () => {
       axios
         .get("/api/user/review")
         .then((res) => {
-          console.log(res.data.reviews);
           setReviews(res.data.reviews);
         })
-        .then((err) => console.log(err));
+        .catch((err) => console.log(err));
     } catch (err) {
       console.log(err);
     }

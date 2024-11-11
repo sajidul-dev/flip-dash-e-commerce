@@ -1,4 +1,3 @@
-import Reviews from "@/components/Reviews/Reviews";
 import Button from "@/components/shared/Button/Button";
 import Loading from "@/components/shared/Loading/Loading";
 import { RootState } from "@/redux/store/store";
@@ -15,6 +14,7 @@ import { PiWarningCircle } from "react-icons/pi";
 import { IoIosCash } from "react-icons/io";
 import { useGetProduct } from "@/hooks/useGetProduct";
 import { useAddToCart } from "@/hooks/useAddToCart";
+import PostReviews from "@/components/Reviews/PostReviews";
 
 const ProductDetails = () => {
   const router = useRouter();
@@ -23,9 +23,11 @@ const ProductDetails = () => {
   const categories = useSelector(
     (state: RootState) => state.categoriesReducer.categories
   );
-  const { product, loading: productLoading } = useGetProduct(
-    (router.query.id as string[] | undefined)?.[1] as string
-  );
+  const {
+    product,
+    setProduct,
+    loading: productLoading,
+  } = useGetProduct((router.query.id as string[] | undefined)?.[1] as string);
   const { handleAddToCart, loading: addToCartLoading } = useAddToCart(user);
   const productId = router.query.id;
 
@@ -132,11 +134,12 @@ const ProductDetails = () => {
         </div>
       </div>
       <div>
-        <Reviews
+        <PostReviews
           userId={user?._id}
           productId={productId && productId[1]}
           shopId={product?.shopId || ""}
           product={product}
+          setProduct={setProduct}
         />
       </div>
     </>
