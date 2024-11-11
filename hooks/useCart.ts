@@ -5,7 +5,7 @@ import { useDispatch } from "react-redux";
 import { setCart as setCartAction } from "@/redux/slice/cartSlice/cartSlice";
 import { CartItem } from "@/types/cartType";
 
-export function useCart(cartItem: CartItem, user: any) {
+export function useCart(cartItem: CartItem | null, user: any) {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
 
