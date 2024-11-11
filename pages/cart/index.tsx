@@ -1,13 +1,11 @@
 import Button from "@/components/shared/Button/Button";
 import { RootState } from "@/redux/store/store";
-import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React from "react";
+import { useSelector } from "react-redux";
 
-import Image from "next/image";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import axios from "axios";
 import toast from "react-hot-toast";
-import { MdOutlineFavoriteBorder } from "react-icons/md";
 import Loading from "@/components/shared/Loading/Loading";
 import Input from "@/components/shared/Input/Input";
 import { SubmitHandler, useForm } from "react-hook-form";
