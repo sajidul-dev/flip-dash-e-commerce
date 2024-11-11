@@ -1,19 +1,7 @@
 import React from "react";
 import { TiStarFullOutline } from "react-icons/ti";
 import { FaUser } from "react-icons/fa";
-
-type ReviewType = {
-  review: string;
-  user: {
-    _id: string;
-    name: string;
-  };
-  rating: number;
-};
-
-interface ReviewProps {
-  reviewProps: ReviewType;
-}
+import { ReviewProps } from "@/types/reviewTypes";
 
 const ReviewCard = ({ reviewProps }: ReviewProps) => {
   const { user, review, rating } = reviewProps;
