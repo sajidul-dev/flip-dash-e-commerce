@@ -29,7 +29,7 @@ const ProductBuyingGuide = () => {
   ];
 
   return (
-    <div className="bg-[#fef7f5] py-6 flex justify-around items-center gap-4 ">
+    <div className="bg-[#fef7f5] py-6 flex flex-wrap justify-around items-center gap-4 ">
       {guideObj.map((item) => {
         return (
           <div key={item.id} className="h-[160px] flex w-[300px] gap-4">

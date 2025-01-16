@@ -1,11 +1,4 @@
-import {
-  setCart as setCartAction,
-  setDefaultCart,
-} from "@/redux/slice/cartSlice/cartSlice";
-import {
-  setFavourite as setFavouriteAction,
-  setDefaultFavourite,
-} from "@/redux/slice/favouriteSlice/favouriteSlice";
+import { setCart as setCartAction } from "@/redux/slice/cartSlice/cartSlice";
 import { RootState } from "@/redux/store/store";
 import { Product } from "@/types/productType";
 import axios from "axios";
@@ -14,7 +7,6 @@ import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { AiOutlineShoppingCart } from "react-icons/ai";
-import { MdOutlineFavorite, MdOutlineFavoriteBorder } from "react-icons/md";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { useDispatch, useSelector } from "react-redux";
